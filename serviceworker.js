@@ -10,7 +10,7 @@ const staticCacheName = 'music-cache-v1';
 
 
 // service-worker.js
-self.addEventListener('install', function() {
+self.addEventListener('install', function(event) {
     event.waitUntil(
       caches.open(staticCacheName)
       .then(cache => {

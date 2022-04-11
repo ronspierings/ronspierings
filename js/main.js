@@ -119,14 +119,14 @@ var soundMarker1 = L.marker(sound1LatLng,  {
 function onAccuratePositionError (e) 
 {
     console.log("Error:");
-    console.log(e);
+    //console.log(e);
     refreshButtonPanel();
 }
 
 function onAccuratePositionProgress (latlng) 
 {
     currentPosition = latlng;
-    console.log("Accurate busy:");
+    //console.log("Accurate busy:");
     console.log(latlng);
 
     refreshButtonPanel();
@@ -162,7 +162,6 @@ function onLocationUpdate(lng)
 function notFoundLocation(e)
 {
     alert("GPS Locatie niet gevonden");
-    console.log(e);
 }
 
 
