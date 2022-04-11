@@ -1,0 +1,68 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="">
+  <meta property="og:type" content="">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+
+  <link rel="stylesheet" href="css/main.css">
+  
+  <link rel="stylesheet" href="css/leaflet.css"/>
+
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+
+  <div id="map">
+
+  </div>
+  <div id="ButtonPanel">
+    <p>Nauwkeurigheid: <span id="txtAccurracy"></span>m</p>
+    <p>Afstand tot: <span id="txtDistance"></span>m</p>
+    <button onclick="resetCentreMap();">Reset</button>
+    <button onclick="map.locate();">Refresh GPS</button>
+  </div>
+  
+
+  <!-- Add your site or application content here --> 
+  <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('serviceworker.js').then(function (registration) {
+                // Registration was successful
+                console.log('Registered!');
+            },
+                function (err) {
+                    // registration failed :(
+                    console.log('ServiceWorker registration failed: ', err);
+                }).catch(function (err) {
+                    console.log(err);
+                });
+        });
+    } else {
+        console.log('service worker is not supported');
+    }
+  </script>
+
+  <script src="js/leaflet-src.js"></Script>
+  <script src="js/vendor/modernizr-3.11.2.min.js"></script>
+  <script src="js/plugins.js"></script>
+  <script type="module" src="js/main.js" defer></script>
+  <script src="serviceworker.js"></script>
+</body>
+
+</html>

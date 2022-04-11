@@ -1,0 +1,13 @@
+{
+  "short_name": "OssAudioTour",
+  "name": "OssAudioTour",
+  "icons": [{
+    "src": "icon.png",
+    "type": "image/png",
+    "sizes": "192x192"
+  }],
+  "start_url": "index.html",
+  "background_color": "#fafafa",
+  "theme_color": "#fafafa",
+  "display": "standalone"
+}
