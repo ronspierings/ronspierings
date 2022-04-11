@@ -7,8 +7,6 @@ const filesToCache = [
 
 const staticCacheName = 'music-cache-v1';
 
-
-
 // service-worker.js
 self.addEventListener('install', function(event) {
     event.waitUntil(
