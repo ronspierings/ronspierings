@@ -114,6 +114,7 @@ function onAccuratePositionError (e) {
 }
 
 function onAccuratePositionProgress (e) {
+    currentPosition = e;
     console.log("Accurate busy:");
     console.log(e);
 
@@ -123,6 +124,7 @@ function onAccuratePositionProgress (e) {
 function onAccuratePositionFound (e) {
     console.log("Accurate found:")
     console.log(e);
+    currentPosition = e;
     
     refreshButtonPanel();
 }
