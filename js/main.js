@@ -12,6 +12,14 @@ var imgLocation = 'images/location.png';
 var imgPlay = 'images/play.png';
 var imgMarker = 'images/marker-icon-2x.png';
 
+var jsondata = fetch('js/geo-data.json')
+.then( response => {
+    jsondata = response.json();
+    console.log(jsondata);
+    return jsondata;
+});
+
+
 // Map Initialization
 var map = L.map('map', 
 {
@@ -34,7 +42,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-// Do the GEO-location lookup
+// Do the GEO-location lookup (native function)
 map.locate(
     {
         watch: true, // Continously updating
@@ -42,22 +50,23 @@ map.locate(
     }
 );
 
-// AddAccurate event listners
-map.on('accuratepositionprogress', onAccuratePositionProgress);
-map.on('accuratepositionfound', onAccuratePositionFound);
-map.on('accuratepositionerror', onAccuratePositionError);
-
+// Do the accurate Geo-location lookup
 map.findAccuratePosition({
     maxWait: 10000,
     desiredAccuracy: 15
 });
 
-
 /*
     Event Listeners
 */
+
+map.on('accuratepositionprogress', onAccuratePositionProgress);
+map.on('accuratepositionfound', onAccuratePositionFound);
+map.on('accuratepositionerror', onAccuratePositionError);
+
 map.on('locationfound', onLocationUpdate);
 map.on('locationerror', notFoundLocation);
+
 
 /*
     Icons
@@ -95,7 +104,7 @@ var thuis = L.marker([51.707796589958875, 5.300826064610947],
 
 // Test sound marker 1
 var soundCirle1 = L.circle(sound1LatLng, {
-    radius: 5
+    radius: 7.5
 }).addTo(map);
 
 var soundMarker1 = L.marker(sound1LatLng,  {
@@ -107,26 +116,25 @@ var soundMarker1 = L.marker(sound1LatLng,  {
     Event Functions (Listner functions)
 */
 
-function onAccuratePositionError (e) {
+function onAccuratePositionError (e) 
+{
     console.log("Error:");
     console.log(e);
     refreshButtonPanel();
 }
 
-function onAccuratePositionProgress (e) {
-    currentPosition = e;
+function onAccuratePositionProgress (latlng) 
+{
+    currentPosition = latlng;
     console.log("Accurate busy:");
-    console.log(e);
+    console.log(latlng);
 
     refreshButtonPanel();
 }
 
-function onAccuratePositionFound (e) {
-    console.log("Accurate found:");
-    console.log(e);
-    currentPosition = e;
-    
-    refreshButtonPanel();
+function onAccuratePositionFound (latlng) 
+{
+    onLocationUpdate(latlng);
 }
 
 function onLocationUpdate(lng)
@@ -139,9 +147,6 @@ function onLocationUpdate(lng)
     // Update the current position Marker
     currentPositionMarker.setLatLng(lng.latlng);
 
-    // Debugging purpose only
-    //console.log(lng);
-
     var sound1LatLng = soundCirle1.getLatLng();
     var distanceTo = sound1LatLng.distanceTo(lng.latlng);
     if(distanceTo < soundCirle1.getRadius())
@@ -149,8 +154,6 @@ function onLocationUpdate(lng)
         
         alert("Speel geluid!");
     }
-    
-    console.log(distanceTo);
 
     // Refresh our lovely UI
     refreshButtonPanel();    
@@ -162,6 +165,10 @@ function notFoundLocation(e)
     console.log(e);
 }
 
+
+/*
+    Helper Functions
+*/
 function refreshButtonPanel() 
 {
     // Hoe ver van huis?
@@ -175,17 +182,14 @@ function resetCentreMap()
 {
     map.setView([currentPosition.latitude, currentPosition.longitude]);
 }
-/*
-    Helper Functions
-*/
+
 function createMarker(options)
 {
     var marker = L.marker([options.latitude, options.longitude]).addTo(map);
 }
 
-/*
-    Get the distance between 2 latlng 
-*/
+
+// Get the distance between 2 latlng
 function distance(latlng1, latlng2) {
     var lat1 = latlng1.lat;
     var lat2 = latlng2.lat;
@@ -199,4 +203,4 @@ function distance(latlng1, latlng2) {
             (1 - c((lon2 - lon1) * p))/2;
   
     return 12742 * Math.asin(Math.sqrt(a)) * 1000; // 2 * R; R = 6371 km
-  }
+}
