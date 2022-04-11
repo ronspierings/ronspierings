@@ -42,6 +42,16 @@ map.locate(
     }
 );
 
+// AddAccurate event listners
+map.on('accuratepositionprogress', onAccuratePositionProgress);
+map.on('accuratepositionfound', onAccuratePositionFound);
+map.on('accuratepositionerror', onAccuratePositionError);
+
+map.findAccuratePosition({
+    maxWait: 10000,
+    desiredAccuracy: 20
+});
+
 
 /*
     Event Listeners
