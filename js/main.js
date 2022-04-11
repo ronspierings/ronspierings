@@ -49,7 +49,7 @@ map.on('accuratepositionerror', onAccuratePositionError);
 
 map.findAccuratePosition({
     maxWait: 10000,
-    desiredAccuracy: 20
+    desiredAccuracy: 15
 });
 
 
@@ -122,7 +122,7 @@ function onAccuratePositionProgress (e) {
 }
 
 function onAccuratePositionFound (e) {
-    console.log("Accurate found:")
+    console.log("Accurate found:");
     console.log(e);
     currentPosition = e;
     
