@@ -97,6 +97,26 @@ var soundMarker1 = L.marker(sound1LatLng,  {
     Event Functions (Listner functions)
 */
 
+function onAccuratePositionError (e) {
+    console.log("Error:");
+    console.log(e);
+    refreshButtonPanel();
+}
+
+function onAccuratePositionProgress (e) {
+    console.log("Accurate busy:");
+    console.log(e);
+
+    refreshButtonPanel();
+}
+
+function onAccuratePositionFound (e) {
+    console.log("Accurate found:")
+    console.log(e);
+    
+    refreshButtonPanel();
+}
+
 function onLocationUpdate(lng)
 {   
     // Update the global current Position variable
