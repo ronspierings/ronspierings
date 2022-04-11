@@ -53,7 +53,7 @@ map.locate(
 // Do the accurate Geo-location lookup
 map.findAccuratePosition({
     maxWait: 10000,
-    desiredAccuracy: 15
+    desiredAccuracy: 10
 });
 
 /*

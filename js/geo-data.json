@@ -1,0 +1,14 @@
+[
+    {
+        "latlng": [51.70753356418117, 5.301094148942621],
+        "radius": 7.5,
+        "title": "De Hoek",
+        "mp3-file": "test.mp3"
+    },
+    {
+        "latlng": [51.70741389281405, 5.3005255206158814],
+        "radius": 7.5,
+        "title": "Driehoekje nooit genoeg",
+        "mp3-file": "test.mp3"
+    }
+]
