@@ -140,6 +140,7 @@ function onLocationUpdate(lng)
     // Retrieve the geo-data data from the local storage 
     let soundPoints = getGeoData();
 
+    // Loop through all the soundPoints in the geo-data
     for(let soundPoint of soundPoints)
     {
         let soundPointLatLng = L.latLng(soundPoint.latlng);
@@ -149,9 +150,12 @@ function onLocationUpdate(lng)
         if(soundPointDistance < soundPoint.radius)
         {
             // And check if this position is different to the previous found
-            if(currentSoundPosition != undefined && currentSoundPosition.geoData != soundPoint.geoData )
+            if(currentSoundPosition != soundPoint )
             {
-                // Found a new position ! We have hit the jackpot :D
+                // Set this new-found sound position as the current one
+                currentSoundPosition = soundPoint;
+
+                // Send out the "I found a location" event
                 let event = new CustomEvent("locationInRange", { detail: soundPoint } );
                 window.dispatchEvent(event);
             }

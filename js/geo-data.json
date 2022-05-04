@@ -1,18 +1,18 @@
 [
     {
-        "latlng": [51.70753356418117, 5.301094148942621],
-        "radius": 7.5,
-        "title": "De Hoek",
-        "mp3file": "cache/bensound-energy.mp3",
-		"soundData": {
-		
-		}
-    },
-    {
         "latlng": [51.707809449763, 5.30086636553361],
         "radius": 5,
         "title": "De Boom",
         "mp3file": "cache/bensound-onceagain.mp3",
+		"soundData": {
+		
+		}
+    },
+	{
+        "latlng": [51.70753356418117, 5.301094148942621],
+        "radius": 7.5,
+        "title": "De Hoek",
+        "mp3file": "cache/bensound-energy.mp3",
 		"soundData": {
 		
 		}
