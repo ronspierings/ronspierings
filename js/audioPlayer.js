@@ -21,17 +21,41 @@ async function onPlaySound(args)
    }
 }
 
-audioElement.addEventListener('play', startPlay);
-audioElement.addEventListener('pause', stopPlay);
-audioElement.addEventListener('ended', stopPlay);
+/*
+   Subscibe to the events
+*/
+audioElement.addEventListener('play', onStartPlay);
+audioElement.addEventListener('pause', onStopPlay);
+audioElement.addEventListener('ended', onStopPlay);
+audioElement.addEventListener('timeupdate', onTimeUpdate);
+
+// TODO: Implement buffer handling via wait event (call back to server o.i.d?)
+// audioElement.addEventListner('wait', ....callback);
 
 
-function startPlay(event)
+/*
+   Event listeners
+*/
+
+function onTimeUpdate(event)
+{
+   console.log(event);
+   let timeToGo = audioElement.duration -  audioElement.currentTime;
+
+   if(isNaN(timeToGo)) {
+      return;
+      
+   }
+   
+   document.getElementById("txtDurationLeft").innerText = parseInt(timeToGo) + " sec.";
+}
+
+function onStartPlay(event)
 {
    document.getElementById("txtSound").style.color = "green";
 }
 
-function stopPlay(event)
+function onStopPlay(event)
 {
    document.getElementById("txtSound").style.color = "red";
 }
