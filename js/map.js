@@ -24,21 +24,19 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Do the GEO-location lookup (native function)
-/*
 map.locate(
     {
         watch: true, // Continously updating
-        enableHighAccuracy: true,
         // setView: true // Set the map?
     }
 );
-*/
+
 
 
 // Do the accurate Geo-location lookup
 map.findAccuratePosition({
-    maxWait: 10000,
-    desiredAccuracy: 5
+    maxWait: 1000,
+    desiredAccuracy: 10
 });
 
 /*
