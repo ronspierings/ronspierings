@@ -11,13 +11,27 @@ async function onPlaySound(args)
    source.src = sound.mp3file;
 
    audioElement.load(); // Preload de file. Hopelijk trigger we een fetch! Update: DAT DOEN WE!
-   audioElement.play(); // Speel file
+
+   try {
+      audioElement.play(); // Speel file
+   }
+   catch(err)
+   {
+      alert("Fout bij afspelen media:" + err);
+   }
 }
 
-audioElement.addEventListener('play', (event) => {
-   document.getElementById("txtSound").style.color = "green";
-});
+audioElement.addEventListener('play', startPlay);
+audioElement.addEventListener('pause', stopPlay);
+audioElement.addEventListener('ended', stopPlay);
 
-audioElement.addEventListener('stop', (event) => {
+
+function startPlay(event)
+{
+   document.getElementById("txtSound").style.color = "green";
+}
+
+function stopPlay(event)
+{
    document.getElementById("txtSound").style.color = "red";
-});
+}

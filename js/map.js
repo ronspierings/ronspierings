@@ -14,7 +14,7 @@ var map = L.map('map',
     Global vars
 */
 var currentPosition = map.getCenter();
-var thuisLatLng = [51.7078039375618, 5.30087411629549];
+var currentSoundPosition = undefined;
 
 
 
@@ -100,7 +100,8 @@ function onPlacingMarker(args)
 
     // The Blue Circle (with a radius)
     let soundCirle = L.circle(marker.latlng, {
-        radius: marker.radius
+        radius: marker.radius,
+        geoData: marker
     }).addTo(map);
 
     // The sound icon
@@ -144,11 +145,16 @@ function onLocationUpdate(lng)
         let soundPointLatLng = L.latLng(soundPoint.latlng);
         let soundPointDistance = soundPointLatLng.distanceTo( lng.latlng );
 
+        // Distance within raduis?
         if(soundPointDistance < soundPoint.radius)
         {
-            // We have hit the jackpot :D
-            let event = new CustomEvent("locationInRange", { detail: soundPoint } );
-            window.dispatchEvent(event);
+            // And check if this position is different to the previous found
+            if(currentSoundPosition != undefined && currentSoundPosition.geoData != soundPoint.geoData )
+            {
+                // Found a new position ! We have hit the jackpot :D
+                let event = new CustomEvent("locationInRange", { detail: soundPoint } );
+                window.dispatchEvent(event);
+            }
         }
     }
 
@@ -167,7 +173,7 @@ function notFoundLocation(e)
 */
 function refreshButtonPanel() 
 {
-    // Hoe ver van huis?
+    // How far from home?
     let newDistance = thuis.getLatLng().distanceTo( currentPosition.latlng);
 
     document.querySelector("#txtDistance").innerText = newDistance.toFixed(2);
@@ -183,21 +189,4 @@ function resetCentreMap()
 function createMarker(options)
 {
     var marker = L.marker([options.latitude, options.longitude]).addTo(map);
-}
-
-
-// Get the distance between 2 latlng
-function distance(latlng1, latlng2) {
-    var lat1 = latlng1.lat;
-    var lat2 = latlng2.lat;
-    var lon1 = latlng1.lng;
-    var lon2 = latlng2.lng;
-
-    var p = 0.017453292519943295;    // Math.PI / 180
-    var c = Math.cos;
-    var a = 0.5 - c((lat2 - lat1) * p)/2 + 
-            c(lat1 * p) * c(lat2 * p) * 
-            (1 - c((lon2 - lon1) * p))/2;
-  
-    return 12742 * Math.asin(Math.sqrt(a)) * 1000; // 2 * R; R = 6371 km
 }
