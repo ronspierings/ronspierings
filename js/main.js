@@ -4,7 +4,7 @@ startApplication();
 function startApplication() 
 {
     // Retrieve the json data
-    retrieveGeoData('/js/geo-data.json', (result) => {
+    retrieveGeoData('js/geo-data.json', (result) => {
         // Save the geo-data to the localStorage
         localStorage.setItem("geo-data", JSON.stringify(result));
         
@@ -36,7 +36,16 @@ function retrieveGeoData(url, callback)
 {
     // Make the Request
     fetch(url)
-    .then(res => res.json())
+    .then(res => {
+        if(res != null)
+        {
+            return res.json();
+        }
+        else {
+            return [];
+        }
+        
+    })
     .then(data => obj = data)
     .then(() => callback(obj));
 }
