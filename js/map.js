@@ -23,17 +23,15 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
 }).addTo(map);
 
-// Do the GEO-location lookup (native function)
 
+// Do the GEO-location lookup (native function)
 map.locate(
     {
         watch: true, // Continously updating
         enableHighAccuracy: true
         // setView: true // Set the map?
     }
-);
-
-
+)
 
 
 // Do the accurate Geo-location lookup
