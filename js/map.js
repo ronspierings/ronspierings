@@ -14,6 +14,7 @@ var map = L.map('map',
     Global vars
 */
 var currentPosition = map.getCenter();
+var thuisLatLng = [51.7078039375618, 5.30087411629549];
 
 
 
@@ -82,7 +83,7 @@ var currentPositionMarker = L.marker([51.505, -0.09],
 }).addTo(map);
 
 
-var thuis = L.marker([51.70810512116644, 5.30076938195476],
+var thuis = L.marker([51.7078039375618, 5.300874116295497],
 {
     icon: regularMarkerIcon,
     iconSize: [24,24]
