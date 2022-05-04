@@ -24,21 +24,25 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Do the GEO-location lookup (native function)
+
 map.locate(
     {
         watch: true, // Continously updating
+        enableHighAccuracy: true
         // setView: true // Set the map?
     }
 );
 
 
 
+
 // Do the accurate Geo-location lookup
+/*
 map.findAccuratePosition({
     maxWait: 1000,
-    desiredAccuracy: 10
+    desiredAccuracy: 5,
 });
-
+*/
 /*
     Event Listeners
 */
@@ -112,7 +116,6 @@ function onPlacingMarker(args)
 function onAccuratePositionError (e) 
 {
     console.log("Error:");
-    refreshButtonPanel();
 }
 
 function onAccuratePositionProgress (latlng) 
@@ -171,10 +174,11 @@ function notFoundLocation(e)
 function refreshButtonPanel() 
 {
     // Hoe ver van huis?
-    var newDistance = thuis.getLatLng().distanceTo( currentPosition.latlng);
+    let newDistance = thuis.getLatLng().distanceTo( currentPosition.latlng);
 
     document.querySelector("#txtDistance").innerText = newDistance.toFixed(2);
     document.querySelector("#txtAccurracy").innerText = Math.round( currentPosition.accuracy );
+
 }
 
 function resetCentreMap()

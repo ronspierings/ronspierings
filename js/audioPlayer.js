@@ -13,3 +13,11 @@ async function onPlaySound(args)
    audioElement.load(); // Preload de file. Hopelijk trigger we een fetch! Update: DAT DOEN WE!
    audioElement.play(); // Speel file
 }
+
+audioElement.addEventListener('play', (event) => {
+   document.getElementById("txtSound").style.color = "green";
+});
+
+audioElement.addEventListener('stop', (event) => {
+   document.getElementById("txtSound").style.color = "red";
+});
