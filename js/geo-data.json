@@ -3,12 +3,45 @@
         "latlng": [51.70753356418117, 5.301094148942621],
         "radius": 7.5,
         "title": "De Hoek",
-        "mp3-file": "test.mp3"
+        "mp3file": "/cache/bensound-energy.mp3",
+		"soundData": {
+		
+		}
     },
     {
         "latlng": [51.70741389281405, 5.3005255206158814],
-        "radius": 7.5,
+        "radius": 25,
         "title": "Driehoekje nooit genoeg",
-        "mp3-file": "test.mp3"
+        "mp3file": "/cache/bensound-sunny.mp3",
+		"soundData": {
+		
+		}
+    },
+	{
+        "latlng": [51.698678502177735, 5.321162968258299],
+        "radius": 7.5,
+        "title": "Aartshertogenlaan Deel 1",
+        "mp3file": "/cache/bensound-funnysong.mp3",
+		"soundData": {
+		
+		}
+    },
+	{
+        "latlng": [51.698415838198606, 5.320653348563685],
+        "radius": 10,
+        "title": "Aartshertogenlaan Deel 2",
+        "mp3file": "/cache/bensound-onceagain.mp3",
+		"soundData": {
+		
+		}
+    },
+	{
+        "latlng": [51.69795035398427, 5.320857196441531],
+        "radius": 12.5,
+        "title": "Aartshertogenlaan Deel 3",
+        "mp3file": "/cache/bensound-energy.mp3",
+		"soundData": {
+		
+		}
     }
 ]

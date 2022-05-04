@@ -1,11 +1,15 @@
-var audioElement = document.getElementById("AudioElement")
+var audioElement = document.getElementById("AudioElement");
+
+window.addEventListener("locationInRange", onPlaySound);
 
 
-async function playSound(url)
+async function onPlaySound(args)
 {
-   let source = document.getElementById("AudioSourceElement");
-   source.src = url;
+   let sound = args.detail;
 
-   audioElement.load(); // Preload de file. Hopelijk trigger we een fetch! Update: DAT DOEN WE!!
+   let source = document.getElementById("AudioSourceElement");
+   source.src = sound.mp3file;
+
+   audioElement.load(); // Preload de file. Hopelijk trigger we een fetch! Update: DAT DOEN WE!
    audioElement.play(); // Speel file
 }

@@ -1,3 +1,18 @@
+// Update this manually.
+const BUILD_MMR = '1.0.0';
+// These are updated automatically by the build.
+const BUILD_DATE = '20220405';
+const BUILD_NUMBER = '1';
+const APP_VERSION = `${BUILD_MMR}.${BUILD_DATE}#${BUILD_NUMBER}`;
+// Debug logging - update manually
+const DEBUG_LOGGING = true;
+const WORKBOX_DEBUG_LOGGING = false;
+// Workbox version - update manually when there are new releases.
+const WORKBOX_VERSION = '5.1.1';
+// Cache naming and versioning.
+const APP_CACHE_PREFIX = 'mct';
+const APP_CACHE_SUFFIX = `v${BUILD_MMR}`;
+
 const staticCacheName = 'music-cache-v1';
 
 const filesToCache = [
@@ -5,6 +20,9 @@ const filesToCache = [
   'cache/bensound-sunny.mp3',
   'cache/bensound-funnysong.mp3',
   'cache/bensound-onceagain.mp3'
+
+
+
 ];
 
 // service-worker.js
@@ -35,6 +53,10 @@ self.addEventListener('install', function(event) {
         else 
         {
           // No, we do not. Send out a network request
+          if(evt.request.url.indexOf(".mp3") >= 0)
+          {
+            console.log('%c mp3 file downloaded from network :( ', 'color: orange;');
+          }
           console.log("Fetching from network:", evt.request)
           return fetch(evt.request);
         }

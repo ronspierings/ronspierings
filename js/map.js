@@ -1,13 +1,3 @@
-/*import '../css/leaflet.css';
-import 'leaflet';
-
-// import images
-import '../images/marker-icon-2x.png';
-import imgLocation from '../images/location.png';
-import imgPlay from '../images/play.png';
-import imgMarker from '../images/marker-icon-2x.png';
-*/
-
 var imgLocation = 'images/location.png';
 var imgPlay = 'images/play.png';
 var imgMarker = 'images/marker-icon-2x.png';
@@ -24,9 +14,8 @@ var map = L.map('map',
     Global vars
 */
 var currentPosition = map.getCenter();
-var thuisLatLng = [51.707796589958875, 5.300826064610947];
-var sound1LatLng = [51.707996589958875, 5.300826064910947];
-var soundMarkerList = [];
+var thuisLatLng = [51.7078039375618, 5.30087411629549];
+
 
 
 // Layer initialiation
@@ -35,7 +24,8 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Do the GEO-location lookup (native function)
-/*map.locate(
+/*
+map.locate(
     {
         watch: true, // Continously updating
         enableHighAccuracy: true,
@@ -43,6 +33,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     }
 );
 */
+
 
 // Do the accurate Geo-location lookup
 map.findAccuratePosition({
@@ -60,6 +51,8 @@ map.on('accuratepositionerror', onAccuratePositionError);
 
 map.on('locationfound', onLocationUpdate);
 map.on('locationerror', notFoundLocation);
+
+window.addEventListener("placeMarker", onPlacingMarker);
 
 
 /*
@@ -90,20 +83,10 @@ var currentPositionMarker = L.marker([51.505, -0.09],
 }).addTo(map);
 
 
-var thuis = L.marker([51.707796589958875, 5.300826064610947],
+var thuis = L.marker([51.7078039375618, 5.300874116295497],
 {
     icon: regularMarkerIcon,
     iconSize: [24,24]
-}).addTo(map);
-
-
-// Test sound marker 1
-var soundCirle1 = L.circle(sound1LatLng, {
-    radius: 7.5
-}).addTo(map);
-
-var soundMarker1 = L.marker(sound1LatLng,  {
-    icon: soundMarkerIcon,     
 }).addTo(map);
 
 
@@ -111,10 +94,26 @@ var soundMarker1 = L.marker(sound1LatLng,  {
     Event Functions (Listner functions)
 */
 
+function onPlacingMarker(args)
+{
+    let marker = args.detail;
+
+    console.log("Adding marker: ", marker);
+
+    // The Blue Circle (with a radius)
+    let soundCirle = L.circle(marker.latlng, {
+        radius: marker.radius
+    }).addTo(map);
+
+    // The sound icon
+    let soundMarker = L.marker(marker.latlng,  {
+        icon: soundMarkerIcon,     
+    }).addTo(map);
+}
+
 function onAccuratePositionError (e) 
 {
     console.log("Error:");
-    //console.log(e);
     refreshButtonPanel();
 }
 
@@ -142,12 +141,20 @@ function onLocationUpdate(lng)
     // Update the current position Marker
     currentPositionMarker.setLatLng(lng.latlng);
 
-    var sound1LatLng = soundCirle1.getLatLng();
-    var distanceTo = sound1LatLng.distanceTo(lng.latlng);
-    if(distanceTo < soundCirle1.getRadius())
+    // Retrieve the geo-data data from the local storage 
+    let soundPoints = getGeoData();
+
+    for(let soundPoint of soundPoints)
     {
-        
-        alert("Speel geluid!");
+        let soundPointLatLng = L.latLng(soundPoint.latlng);
+        let soundPointDistance = soundPointLatLng.distanceTo( lng.latlng );
+
+        if(soundPointDistance < soundPoint.radius)
+        {
+            // We have hit the jackpot :D
+            let event = new CustomEvent("locationInRange", { detail: soundPoint } );
+            window.dispatchEvent(event);
+        }
     }
 
     // Refresh our lovely UI
@@ -166,7 +173,7 @@ function notFoundLocation(e)
 function refreshButtonPanel() 
 {
     // Hoe ver van huis?
-    var newDistance = soundCirle1.getLatLng().distanceTo( currentPosition.latlng);
+    var newDistance = thuis.getLatLng().distanceTo( currentPosition.latlng);
 
     document.querySelector("#txtDistance").innerText = newDistance.toFixed(2);
     document.querySelector("#txtAccurracy").innerText = Math.round( currentPosition.accuracy );
