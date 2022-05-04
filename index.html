@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>Boterbazen</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,15 +17,17 @@
   <!-- Place favicon.ico in the root directory -->
 
   <link rel="stylesheet" href="css/normalize.css">
-
-  <link rel="stylesheet" href="css/main.css">
-  
+  <link rel="stylesheet" href="css/main.css">  
   <link rel="stylesheet" href="css/leaflet.css"/>
-
   <meta name="theme-color" content="#fafafa">
 </head>
 
 <body>
+
+  <!-- For a stupid reason, we need a user interaction (through a forced click) to be aple to autoplay Audio -->
+  <div id="splash">
+    <button onclick="document.getElementById('splash').remove()">Start</button>
+  </div>
 
   <div id="map">
 

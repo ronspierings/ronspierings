@@ -9,6 +9,15 @@
 		}
     },
     {
+        "latlng": [51.707809449763, 5.30086636553361],
+        "radius": 5,
+        "title": "De Boom",
+        "mp3file": "cache/bensound-onceagain.mp3",
+		"soundData": {
+		
+		}
+    },
+    {
         "latlng": [51.70741389281405, 5.3005255206158814],
         "radius": 25,
         "title": "Driehoekje nooit genoeg",
@@ -44,4 +53,5 @@
 		
 		}
     }
+	
 ]

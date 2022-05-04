@@ -21,9 +21,25 @@
   border: black 1px solid;
 }
 
-
-
-
+#splash 
+{
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: rgba(200,200,200, 0.75);
+  z-index: 9999;
+}
+#splash button 
+{
+  left: calc(50% - 125px);
+  top: 25%;
+  width: 250px;
+  height: 75px;  
+  opacity: 1;
+  position: absolute;
+  border-radius: 15px;;
+}
 /* main.css 2.1.0 | MIT License | https://github.com/h5bp/main.css#readme */
 /*
  * What follows is the result of much research on cross-browser styling.
@@ -39,6 +55,7 @@ html {
   color: #222;
   font-size: 1em;
   line-height: 1.4;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /*
