@@ -37,12 +37,12 @@ map.locate(
 
 
 // Do the accurate Geo-location lookup
-/*
+
 map.findAccuratePosition({
-    maxWait: 1000,
+    maxWait: 1000000,
     desiredAccuracy: 5,
 });
-*/
+
 /*
     Event Listeners
 */
@@ -100,8 +100,6 @@ function onPlacingMarker(args)
 {
     let marker = args.detail;
 
-    console.log("Adding marker: ", marker);
-
     // The Blue Circle (with a radius)
     let soundCirle = L.circle(marker.latlng, {
         radius: marker.radius
@@ -121,8 +119,6 @@ function onAccuratePositionError (e)
 function onAccuratePositionProgress (latlng) 
 {
     currentPosition = latlng;
-    //console.log("Accurate busy:");
-    console.log(latlng);
 
     refreshButtonPanel();
 }

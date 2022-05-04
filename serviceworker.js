@@ -57,7 +57,7 @@ self.addEventListener('install', function(event) {
           {
             console.log('%c mp3 file downloaded from network :( ', 'color: orange;');
           }
-          console.log("Fetching from network:", evt.request)
+          //console.log("Fetching from network:", evt.request)
           return fetch(evt.request);
         }
       })
