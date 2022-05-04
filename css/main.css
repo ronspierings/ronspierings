@@ -4,6 +4,10 @@
   Custom CSS
 */
 
+#AudioElement {
+  display: none;
+}
+
 #ButtonPanel 
 {
   position: absolute;

@@ -33,9 +33,13 @@
   <div id="ButtonPanel">
     <p>Nauwkeurigheid: <span id="txtAccurracy"></span>m</p>
     <p>Afstand tot: <span id="txtDistance"></span>m</p>
-    <button onclick="resetCenterMap();">Centreer</button>
+    <button onclick="resetCentreMap();">Centreer</button>
     <button onclick="map.locate();">Refresh GPS</button>
   </div>
+
+  <audio id="AudioElement">
+    <source id="AudioSourceElement" src=""></source>
+  </audio>
   
 
   <!-- Add your site or application content here --> 
@@ -53,17 +57,26 @@
                     console.log(err);
                 });
         });
-    } else {
+    }
+    else 
+    {
         console.log('service worker is not supported');
     }
   </script>
 
-  <script src="js/leaflet-src.js"></Script>
-    <script src="js/Leaflet.AccuratePosition.js"></script>
+  <script src="serviceworker.js"></script>
+
+  <script src="js/leaflet-src.js"></script>
+  <script src="js/Leaflet.AccuratePosition.js"></script>
   <script src="js/vendor/modernizr-3.11.2.min.js"></script>
   <script src="js/plugins.js"></script>
-  <script type="module" src="js/main.js" defer></script>
-  <script src="serviceworker.js"></script>
+  
+  <script src="js/map.js" defer></script>
+  <script src="/js/audioPlayer.js" defer></script>
+  
+
+  <script src="js/main.js" type="module" defer></script>
+
 </body>
 
 </html>
