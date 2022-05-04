@@ -146,11 +146,12 @@ function onLocationUpdate(lng)
         let soundPointLatLng = L.latLng(soundPoint.latlng);
         let soundPointDistance = soundPointLatLng.distanceTo( lng.latlng );
 
-        // Distance within raduis?
+        // Distance within radius?
         if(soundPointDistance < soundPoint.radius)
         {
             // And check if this position is different to the previous found
-            if(currentSoundPosition != soundPoint )
+            // Because we cannot simply value check 2 objects, we need to stringify them
+            if(JSON.stringify(currentSoundPosition) != JSON.stringify(soundPoint) )
             {
                 // Set this new-found sound position as the current one
                 currentSoundPosition = soundPoint;
@@ -188,9 +189,4 @@ function refreshButtonPanel()
 function resetCentreMap()
 {
     map.setView([currentPosition.latitude, currentPosition.longitude]);
-}
-
-function createMarker(options)
-{
-    var marker = L.marker([options.latitude, options.longitude]).addTo(map);
 }
