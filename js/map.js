@@ -145,12 +145,12 @@ function onLocationUpdate(lng)
     {
         let soundPointLatLng = L.latLng(soundPoint.latlng);
         let soundPointDistance = soundPointLatLng.distanceTo( lng.latlng );
-
+        
         // Distance within radius?
         if(soundPointDistance < soundPoint.radius)
         {
             // And check if this position is different to the previous found
-            // Because we cannot simply value check 2 objects, we need to stringify them
+            // Because we cannot simply via value-check compare 2 objects, we need to stringify them
             if(JSON.stringify(currentSoundPosition) != JSON.stringify(soundPoint) )
             {
                 // Set this new-found sound position as the current one

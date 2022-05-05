@@ -47,7 +47,7 @@ function onTimeUpdate(event)
       
    }
    
-   document.getElementById("txtDurationLeft").innerText = parseInt(timeToGo) + " sec.";
+   document.getElementById("txtDurationLeft").innerText = parseInt(timeToGo) + " sec";
 }
 
 function onStartPlay(event)

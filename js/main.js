@@ -1,10 +1,10 @@
-// Start the application!
+// Application start
 startApplication();
 
 function startApplication() 
 {
     console.log("Start de applicatie!");
-    
+
     // Retrieve the json data
     retrieveGeoData('js/geo-data.json', (result) => {
         // Save the geo-data to the localStorage
@@ -46,6 +46,9 @@ function retrieveGeoData(url, callback)
         else {
             return [];
         }
+        
+    }).catch((res) => {
+        // Error handling on geo-data call...
         
     })
     .then(data => obj = data)
