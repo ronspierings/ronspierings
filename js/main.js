@@ -74,6 +74,10 @@ function getGeoData()
     }
     else 
     {
-        return JSON.parse(data);
+        // Parse the textual geo-data to JSON format
+        let fullData =  JSON.parse(data);
+
+        // Return only the .entries
+        return fullData.entries;
     }
 }

@@ -158,6 +158,7 @@ function onLocationUpdate(lng)
 
                 // Send out the "I found a location" event
                 let event = new CustomEvent("locationInRange", { detail: soundPoint } );
+                alert("Within range. Playing: " + soundPoint.mp3file);
                 window.dispatchEvent(event);
             }
         }

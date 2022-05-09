@@ -39,7 +39,7 @@ audioElement.addEventListener('timeupdate', onTimeUpdate);
 
 function onTimeUpdate(event)
 {
-   console.log(event);
+   // console.log("Music player onTimeUpdate", event);
    let timeToGo = audioElement.duration -  audioElement.currentTime;
 
    if(isNaN(timeToGo)) {
