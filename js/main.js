@@ -6,7 +6,7 @@ function startApplication()
     console.log("Start de applicatie!");
 
     // Retrieve the json data
-    retrieveGeoData('js/geo-data.json', (result) => {
+    retrieveGeoData('https://r-spierings.nl/AudioTourOssAdmin/api/collections/get/SoundLocation?token=bb9d57d773bcc3e75e1347f43b5d48', (result) => {
         // Save the geo-data to the localStorage
         localStorage.setItem("geo-data", JSON.stringify(result));
         
@@ -19,11 +19,16 @@ function startApplication()
 
 /*
     Create a placeMarker event and send out to the world
-
 */
 function placeObjectsOnMap(data)
 {
-    for(let item of data)
+    if(data.entries == undefined)
+    {
+        alert("Fout bij het ophalen van de locaties. Contacteer de organisatie.");
+        return;
+    }
+
+    for(let item of data.entries)
     {
         let event = new CustomEvent("placeMarker", { detail: item } );
         window.dispatchEvent(event);
@@ -49,7 +54,7 @@ function retrieveGeoData(url, callback)
         
     }).catch((res) => {
         // Error handling on geo-data call...
-        
+
     })
     .then(data => obj = data)
     .then(() => callback(obj));
