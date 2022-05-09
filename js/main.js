@@ -1,3 +1,5 @@
+const baseUrl = 'https://r-spierings.nl/'; 
+
 // Application start
 startApplication();
 
@@ -6,7 +8,7 @@ function startApplication()
     console.log("Start de applicatie!");
 
     // Retrieve the json data
-    retrieveGeoData('https://r-spierings.nl/AudioTourOssAdmin/api/collections/get/SoundLocation?token=bb9d57d773bcc3e75e1347f43b5d48', (result) => {
+    retrieveGeoData(baseUrl + 'AudioTourOssAdmin/api/collections/get/SoundLocation?token=bb9d57d773bcc3e75e1347f43b5d48', (result) => {
         // Save the geo-data to the localStorage
         localStorage.setItem("geo-data", JSON.stringify(result));
         
@@ -49,7 +51,14 @@ function retrieveGeoData(url, callback)
             return res.json();
         }
         else {
-            return [];
+            // When call fails, save a empty object
+            let empty = {
+                fields: [],
+                entries: [],
+                total: 0
+            };
+
+            return empty;
         }
         
     }).catch((res) => {
@@ -70,14 +79,17 @@ function getGeoData()
     let data = localStorage.getItem("geo-data");
     if(data == null)
     {
-        return [];
+        // When the geo-data is empty, return a empty object
+        return {
+            entries: [],
+            fields: [],
+            total: 0
+        }
     }
-    else 
+    else
     {
         // Parse the textual geo-data to JSON format
-        let fullData =  JSON.parse(data);
+        return JSON.parse(data);
 
-        // Return only the .entries
-        return fullData.entries;
     }
 }

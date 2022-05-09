@@ -141,7 +141,7 @@ function onLocationUpdate(lng)
     let soundPoints = getGeoData();
 
     // Loop through all the soundPoints in the geo-data
-    for(let soundPoint of soundPoints)
+    for(let soundPoint of soundPoints.entries)
     {
         let soundPointLatLng = L.latLng(soundPoint.latlng);
         let soundPointDistance = soundPointLatLng.distanceTo( lng.latlng );
@@ -158,7 +158,6 @@ function onLocationUpdate(lng)
 
                 // Send out the "I found a location" event
                 let event = new CustomEvent("locationInRange", { detail: soundPoint } );
-                alert("Within range. Playing: " + soundPoint.mp3file);
                 window.dispatchEvent(event);
             }
         }

@@ -8,7 +8,7 @@ async function onPlaySound(args)
    let sound = args.detail;
 
    let source = document.getElementById("AudioSourceElement");
-   source.src = sound.mp3file;
+   source.src = baseUrl + sound.mp3file;
 
    audioElement.load(); // Preload de file. Hopelijk trigger we een fetch! Update: DAT DOEN WE!
 
