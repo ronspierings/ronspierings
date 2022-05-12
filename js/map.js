@@ -79,7 +79,13 @@ var thuis = L.marker([51.7078039375618, 5.300874116295497],
 
 function onStartTour() 
 {
-    alert("Start the tour");
+    confirm("Weet je zeker dat je de route wilt starten?");
+
+    if(confirm == false)
+    {
+        return;
+    }
+    
     // Do the GEO-location lookup (native function)
     map.locate(
         {
