@@ -20,9 +20,6 @@ const filesToCache = [
   'cache/bensound-sunny.mp3',
   'cache/bensound-funnysong.mp3',
   'cache/bensound-onceagain.mp3'
-
-
-
 ];
 
 // service-worker.js

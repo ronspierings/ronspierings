@@ -21,6 +21,11 @@ async function onPlaySound(args)
    }
 }
 
+function pauseSound()
+{
+   audioElement.pause();
+}
+
 /*
    Subscibe to the events
 */
