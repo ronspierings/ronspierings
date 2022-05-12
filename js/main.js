@@ -20,8 +20,25 @@ function startApplication()
 }
 
 /*
+    The "Start Tour" button
+
+*/
+
+function startTour() 
+{
+    // Remove the splahs screen
+    document.getElementById("splash").remove();
+
+    // Send out the "startTour" event
+    let event = new CustomEvent("startTour", { detail: {} } );
+    window.dispatchEvent(event);
+
+}
+
+/*
     Create a placeMarker event and send out to the world
 */
+
 function placeObjectsOnMap(data)
 {
     if(data.entries == undefined)

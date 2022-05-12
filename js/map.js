@@ -23,24 +23,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
 }).addTo(map);
 
-
-// Do the GEO-location lookup (native function)
-map.locate(
-    {
-        watch: true, // Continously updating
-        enableHighAccuracy: true
-        // setView: true // Set the map?
-    }
-)
-
-
-// Do the accurate Geo-location lookup
-
-map.findAccuratePosition({
-    maxWait: 1000000,
-    desiredAccuracy: 5,
-});
-
 /*
     Event Listeners
 */
@@ -53,6 +35,7 @@ map.on('locationfound', onLocationUpdate);
 map.on('locationerror', notFoundLocation);
 
 window.addEventListener("placeMarker", onPlacingMarker);
+window.addEventListener("startTour", onStartTour);
 
 
 /*
@@ -93,6 +76,27 @@ var thuis = L.marker([51.7078039375618, 5.300874116295497],
 /*
     Event Functions (Listner functions)
 */
+
+function onStartTour() 
+{
+    alert("Start the tour");
+    // Do the GEO-location lookup (native function)
+    map.locate(
+        {
+            watch: true, // Continously updating
+            enableHighAccuracy: true
+            // setView: true // Set the map?
+        }
+    )
+
+
+    // Do the accurate Geo-location lookup
+
+    map.findAccuratePosition({
+        maxWait: 1000000,
+        desiredAccuracy: 5,
+    });
+}
 
 function onPlacingMarker(args)
 {
