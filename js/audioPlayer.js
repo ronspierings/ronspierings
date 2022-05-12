@@ -21,9 +21,15 @@ async function onPlaySound(args)
    }
 }
 
-function pauseSound()
+function musicPlayOrPause()
 {
-   audioElement.pause();
+   if(audioElement.paused == true)
+   {
+      audioElement.play();
+   }
+   else {
+      audioElement.pause();
+   }   
 }
 
 /*
@@ -58,9 +64,12 @@ function onTimeUpdate(event)
 function onStartPlay(event)
 {
    document.getElementById("txtSound").style.color = "green";
+   document.getElementById("pauseOrPlay").disabled = false;
 }
 
 function onStopPlay(event)
 {
+   document.getElementById("txtDurationLeft").innerText = "Stilte";
    document.getElementById("txtSound").style.color = "red";
+   document.getElementById("pauseOrPlay").disabled = true;
 }

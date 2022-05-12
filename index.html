@@ -34,11 +34,11 @@
 
   </div>
   <div id="ButtonPanel">
-    <p><span id="txtSound" style="color: red;">♫ <span id="txtDurationLeft"></span></span></p>
+    <p><span id="txtSound" style="color: red;">♫ <span id="txtDurationLeft">Stilte</span></span></p>
     <p>GPS Nauwkeurigheid: <span id="txtAccurracy"></span>m</p>
 
     <p>Volgende: <span id="txtDistance"></span>m</p>
-    <button onclick="pauseSound()">Stop geluid</button>
+    <button onclick="musicPlayOrPause()" id="pauseOrPlay" disabled>Stop</button>
     <button onclick="resetCentreMap()">Centreer</button>
     <button onclick="map.locate()">Ververs GPS</button>
   </div>
