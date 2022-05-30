@@ -95,8 +95,7 @@ function onStartTour()
             enableHighAccuracy: true
             // setView: true // Set the map?
         }
-    )
-
+    );
 
     // Do the accurate Geo-location lookup
     map.findAccuratePosition({
@@ -120,13 +119,22 @@ function onPlacingMarker(args)
         icon: soundMarkerIcon,     
     })
     // Bind the title permanent tooltip
-    .bindTooltip("Locatie " + marker._o, {
+    .bindTooltip("Locatie " + marker._o , {
         permanent: true,
         direction: 'right',
         opacity: 0.9,
         offset: L.point(12,-12)
     })
     .addTo(map);
+
+    // Set the startpoint as the NextSoundPosition
+    if(marker._o == 0)
+    {
+        this.nextSoundPosition = soundCirle;
+    }
+
+    // Update the selfmade crappy UI
+    refreshButtonPanel();
 }
 
 function onAccuratePositionError (e) 
@@ -183,7 +191,7 @@ function onLocationUpdate(lng)
     }
 
     // Refresh our lovely UI
-    refreshButtonPanel();    
+    refreshButtonPanel();
 }
 
 function notFoundLocation(e)
@@ -197,8 +205,12 @@ function notFoundLocation(e)
 */
 function refreshButtonPanel() 
 {
-    // How far from home?
-    let newDistance = thuis.getLatLng().distanceTo( currentPosition.latlng);
+    // How far from the next position marker?
+    let newDistance = 999999;
+    if(nextSoundPosition != undefined && currentPosition.latlng != undefined)
+    {
+        newDistance = nextSoundPosition.getLatLng().distanceTo( currentPosition.latlng );
+    }    
 
     document.querySelector("#txtDistance").innerText = newDistance.toFixed(2);
     document.querySelector("#txtAccurracy").innerText = Math.round( currentPosition.accuracy );

@@ -121,7 +121,6 @@ function getGeoData()
     {
         // Parse the textual geo-data to JSON format
         return JSON.parse(data);
-
     }
 }
 
