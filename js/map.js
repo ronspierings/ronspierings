@@ -14,7 +14,9 @@ var map = L.map('map',
     Global vars
 */
 var currentPosition = map.getCenter();
+var previousSoundPosition = undefined;
 var currentSoundPosition = undefined;
+var nextSoundPosition = undefined;
 
 
 
@@ -85,7 +87,7 @@ function onStartTour()
     {
         return;
     }
-    
+
     // Do the GEO-location lookup (native function)
     map.locate(
         {
@@ -97,7 +99,6 @@ function onStartTour()
 
 
     // Do the accurate Geo-location lookup
-
     map.findAccuratePosition({
         maxWait: 1000000,
         desiredAccuracy: 5,
@@ -117,7 +118,15 @@ function onPlacingMarker(args)
     // The sound icon
     let soundMarker = L.marker(marker.latlng,  {
         icon: soundMarkerIcon,     
-    }).addTo(map);
+    })
+    // Bind the title permanent tooltip
+    .bindTooltip("Locatie " + marker._o, {
+        permanent: true,
+        direction: 'right',
+        opacity: 0.9,
+        offset: L.point(12,-12)
+    })
+    .addTo(map);
 }
 
 function onAccuratePositionError (e) 

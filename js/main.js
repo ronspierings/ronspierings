@@ -1,4 +1,19 @@
-const baseUrl = 'https://r-spierings.nl/'; 
+var cacheCompleted = false;
+cacheData = {
+    amount: 0,
+    totalSize: 0,
+    lastUpdate: "Onbekend",
+    cacheName: staticCacheName
+}
+
+// Listen to a cache complete event. This will only trigger on Install event of the service worker
+broadcast.onmessage = (event) => {
+    if (event.data && event.data.type === 'CACHE_COMPLETED') {
+        // Set the latest update time to now
+        cacheData.lastUpdate = new Date();
+        cacheCompleted = true;
+    }
+};
 
 // Application start
 startApplication();
@@ -26,13 +41,12 @@ function startApplication()
 
 function startTour() 
 {
-    // Remove the splahs screen
+    // Remove the splash screen
     document.getElementById("splash").remove();
 
     // Send out the "startTour" event
     let event = new CustomEvent("startTour", { detail: {} } );
     window.dispatchEvent(event);
-
 }
 
 /*
@@ -68,7 +82,7 @@ function retrieveGeoData(url, callback)
             return res.json();
         }
         else {
-            // When call fails, save a empty object
+            // When call fails, save an empty object
             let empty = {
                 fields: [],
                 entries: [],
@@ -79,7 +93,7 @@ function retrieveGeoData(url, callback)
         }
         
     }).catch((res) => {
-        // Error handling on geo-data call...
+        // @todo Error handling on geo-data call...
 
     })
     .then(data => obj = data)
@@ -109,4 +123,41 @@ function getGeoData()
         return JSON.parse(data);
 
     }
+}
+
+// Retrieve data about the current cache
+function getCacheData()
+{
+    caches.open(staticCacheName).then(cache => {
+        cache.keys().then(keys => {
+            console.log("keys:", keys);
+
+            cacheData.amount = keys.length;
+
+            // Update the UI
+            updateCacheDataUI();
+
+        })
+    });
+
+}
+
+// Show the cache info screen
+function showCacheDataUI() 
+{
+    // Read the latest cache data. This function is async (Promise-based)
+    getCacheData();
+
+    // Show the screen
+    document.getElementById("cacheInfoScreen").style.display = 'block';
+}
+
+// Update the UI on the caching data
+function updateCacheDataUI()
+{
+    document.getElementById("txtCacheAmount").innerText = cacheData.amount;
+    document.getElementById("txtCacheSize").innerText = cacheData.totalSize;
+    document.getElementById("txtCacheLastUpdate").innerText = cacheData.lastUpdate;
+    document.getElementById("txtCacheName").innerText = cacheData.cacheName;
+
 }

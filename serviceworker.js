@@ -15,21 +15,46 @@ const APP_CACHE_SUFFIX = `v${BUILD_MMR}`;
 
 const staticCacheName = 'music-cache-v1';
 
-const filesToCache = [
-  'cache/bensound-energy.mp3',
-  'cache/bensound-sunny.mp3',
-  'cache/bensound-funnysong.mp3',
-  'cache/bensound-onceagain.mp3'
+const baseUrl = 'https://r-spierings.nl/'; 
+
+// Register a BroadCastChannel for messaging
+const broadcast = new BroadcastChannel('sw-update-channel');
+
+  // Place the files to cache here! 
+var filesToCache = [
+  
 ];
 
 // service-worker.js
 self.addEventListener('install', function(event) {
+
+  
+
     event.waitUntil(
+      
       caches.open(staticCacheName)
       .then(cache => {
-        console.log("Files added to cache:", filesToCache);        
-        return cache.addAll(filesToCache);
-      })
+        
+        broadcast.postMessage({type: 'CACHE_START_DOWNLOADING'});
+
+        fetch('https://r-spierings.nl/AudioTourOssAdmin/api/collections/get/SoundLocation?token=bb9d57d773bcc3e75e1347f43b5d48')
+        .then(response => {
+          return response.json();
+        })
+        .then(responseJson => {          
+          if(responseJson.entries != undefined)
+          {
+            for(let item of responseJson.entries)
+            {
+              console.log("Adding to cache:", baseUrl + item.mp3file);
+              cache.add(baseUrl + item.mp3file).then(result => {
+                broadcast.postMessage({type: 'CACHE_FILE_ADDED'});
+              });
+            }      
+            broadcast.postMessage({type: 'CACHE_COMPLETED'});        
+          }
+        })
+      })      
     );
   });
   self.addEventListener("activate", event => {
@@ -52,6 +77,7 @@ self.addEventListener('install', function(event) {
           // No, we do not. Send out a network request
           if(evt.request.url.indexOf(".mp3") >= 0)
           {
+            debugger;
             console.log('%c mp3 file downloaded from network :( ', 'color: orange;');
           }
           //console.log("Fetching from network:", evt.request)

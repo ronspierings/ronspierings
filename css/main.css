@@ -16,7 +16,7 @@
   z-index: 999;
   background-color: white;
   padding: 10px;
-  border-radius: 15px;
+  border-radius: 25px;
   border-color:black;
   border: black 1px solid;
 }
@@ -30,15 +30,33 @@
   background: rgba(200,200,200, 0.75);
   z-index: 9999;
 }
+
+#cacheInfoScreen
+{
+
+  position: fixed;
+  left: calc(50vw - 20vw);
+  border-radius: 15px;
+  width: 40vw;
+  border: black 2px solid;
+  padding: 25px;
+  top: 20%;
+  background-color: #CCCCCC;
+  z-index: 999;
+
+}
+
 #splash button 
 {
   left: calc(50% - 125px);
-  top: 25%;
+  top: 35%;
   width: 250px;
   height: 75px;  
   opacity: 1;
   position: absolute;
-  border-radius: 15px;;
+  border-radius: 15px;
+  font-size:25px;
+  text-transform: uppercase;
 }
 /* main.css 2.1.0 | MIT License | https://github.com/h5bp/main.css#readme */
 /*
@@ -56,6 +74,7 @@ html {
   font-size: 1em;
   line-height: 1.4;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
 }
 
 /*
