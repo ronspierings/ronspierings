@@ -27,11 +27,7 @@ var filesToCache = [
 
 // service-worker.js
 self.addEventListener('install', function(event) {
-
-  
-
     event.waitUntil(
-      
       caches.open(staticCacheName)
       .then(cache => {
         
@@ -69,16 +65,15 @@ self.addEventListener('install', function(event) {
         // Yes we do! Send out the cached file
         if(res)
         {
-          console.log("Fetching from cache:", evt.request)
+          console.info("Fetching from cache:", evt.request)
           return res;
         }
-        else 
+        else 1
         {
           // No, we do not. Send out a network request
           if(evt.request.url.indexOf(".mp3") >= 0)
           {
-            debugger;
-            console.log('%c mp3 file downloaded from network :( ', 'color: orange;');
+            console.warn('MP3 file downloaded from network :( ');
           }
           //console.log("Fetching from network:", evt.request)
           return fetch(evt.request);

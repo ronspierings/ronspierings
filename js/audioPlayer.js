@@ -71,5 +71,6 @@ function onStopPlay(event)
 {
    document.getElementById("txtDurationLeft").innerText = "Stilte";
    document.getElementById("txtSound").style.color = "red";
-   document.getElementById("pauseOrPlay").disabled = true;
+   
+   document.getElementById("pauseOrPlay").innerText = "Doorgaan";
 }

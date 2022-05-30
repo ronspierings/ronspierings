@@ -129,13 +129,13 @@ function getCacheData()
 {
     caches.open(staticCacheName).then(cache => {
         cache.keys().then(keys => {
-            console.log("keys:", keys);
 
+            // Only option so far.. The total amount :( 
+            // TODO Lookup how to get the cache size in KB / MB
             cacheData.amount = keys.length;
 
             // Update the UI
             updateCacheDataUI();
-
         })
     });
 
