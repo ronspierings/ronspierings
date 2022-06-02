@@ -41,6 +41,13 @@ function startApplication()
 
 function startTour() 
 {
+
+    let result = confirm("Weet je zeker dat je de route wilt starten?");
+    if(result == false)
+    {
+        return;
+    }
+
     // Remove the splash screen
     document.getElementById("splash").remove();
 
@@ -64,8 +71,12 @@ function placeObjectsOnMap(data)
     for(let item of data.entries)
     {
         let event = new CustomEvent("placeMarker", { detail: item } );
-        window.dispatchEvent(event);
+        window.dispatchEvent(event);        
     }
+
+    // All the markers are placed, so send out a ready event
+    let eventReady = new CustomEvent("placeMarkerReady");
+    window.dispatchEvent(eventReady);
 }
 
 /*
@@ -93,7 +104,7 @@ function retrieveGeoData(url, callback)
         }
         
     }).catch((res) => {
-        // @todo Error handling on geo-data call...
+        // @todo Error handling on geo-data call... use the cache?
 
     })
     .then(data => obj = data)

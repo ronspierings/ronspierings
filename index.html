@@ -44,15 +44,18 @@
   </div>
 
   <div id="map">
-
   </div>
-  <div id="ButtonPanel">
-    <p><span id="txtSound" style="color: red;">♫ <span id="txtDurationLeft">Stilte</span></span></p>
-    <p>GPS Nauwkeurigheid: <span id="txtAccurracy"></span>m</p>
 
-    <p>Volgende locatie: <span id="txtDistance"></span>m</p>
-    <button onclick="musicPlayOrPause()" id="pauseOrPlay" disabled>Stop Audio</button>
-    <button onclick="resetCentreMap()">Centreer</button>
+  <div id="ButtonPanel">
+    <p style="font-size: 35px; margin: 0px">Locatie <span id="txtCurrentSound"></span></p>
+    <p><span id="txtSound" style="color: red;">♫ <span id="txtDurationLeft">Stilte</span></span></p> 
+    <p>GPS Nauwkeurigheid: <span id="txtAccurracy"></span>m</p>
+    <p>Afstand tot locatie: <span id="txtDistance"></span>m</p>
+    <button onclick="audioElement.currentTime -= 30">-30s</button>
+    <button onclick="audioElement.currentTime += 30">+30s</button>
+    <br>
+    <br>
+    <button onclick="musicPlayOrPause()" id="pauseOrPlay" disabled>Pauzeer Audio</button>
     <button onclick="showCacheDataUI()">Status</button>
   </div>
 

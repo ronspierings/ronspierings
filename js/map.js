@@ -10,9 +10,13 @@ var map = L.map('map',
 });
 
 
+
 /*
     Global vars
 */
+var allSoundPositions = []; // List of all the (Circles) on the map
+var currentSoundIndex = -1; // The current sound index
+
 var currentPosition = map.getCenter();
 var previousSoundPosition = undefined;
 var currentSoundPosition = undefined;
@@ -38,6 +42,7 @@ map.on('locationerror', notFoundLocation);
 
 window.addEventListener("placeMarker", onPlacingMarker);
 window.addEventListener("startTour", onStartTour);
+window.addEventListener("placeMarkerReady", onPlaceMarkerReady);
 
 
 /*
@@ -81,13 +86,6 @@ var thuis = L.marker([51.7078039375618, 5.300874116295497],
 
 function onStartTour() 
 {
-    confirm("Weet je zeker dat je de route wilt starten?");
-
-    if(confirm == false)
-    {
-        return;
-    }
-
     // Do the GEO-location lookup (native function)
     map.locate(
         {
@@ -109,7 +107,7 @@ function onPlacingMarker(args)
     let marker = args.detail;
 
     // The Blue Circle (with a radius)
-    let soundCirle = L.circle(marker.latlng, {
+    let soundCirkle = L.circle(marker.latlng, {
         radius: marker.radius,
         geoData: marker
     }).addTo(map);
@@ -130,11 +128,28 @@ function onPlacingMarker(args)
     // Set the startpoint as the NextSoundPosition
     if(marker._o == 0)
     {
-        this.nextSoundPosition = soundCirle;
+
     }
+
+    // Create a combined object (Markers and Geodata) and add to one array
+    var combinedObject = {
+        SoundCircle: soundCirkle,
+        Marker: soundMarker,
+        Geodata: args.detail
+    }
+
+    // Store this combined object in the array
+    allSoundPositions.push(combinedObject);
 
     // Update the selfmade crappy UI
     refreshButtonPanel();
+}
+
+// All the markers are placed on the map.
+function onPlaceMarkerReady()
+{
+    this.nextSoundPosition = allSoundPositions[0];
+    allSoundPositions[0].SoundCircle.setStyle( { color: 'orange' } );
 }
 
 function onAccuratePositionError (e) 
@@ -164,28 +179,63 @@ function onLocationUpdate(lng)
     // Update the current position Marker
     currentPositionMarker.setLatLng(lng.latlng);
 
-    // Retrieve the geo-data data from the local storage 
-    let soundPoints = getGeoData();
-
-    // Loop through all the soundPoints in the geo-data
-    for(let soundPoint of soundPoints.entries)
+    // Loop through all the soundPoints currently on the map
+    for(let combinedSoundPoint of allSoundPositions)
     {
-        let soundPointLatLng = L.latLng(soundPoint.latlng);
-        let soundPointDistance = soundPointLatLng.distanceTo( lng.latlng );
+        // CombinedSoundPoint Object has: Geodata, Marker and the SoundCircle 
+        let soundPoint = combinedSoundPoint.Geodata;
+        let soundMarker = combinedSoundPoint.Marker;
+        let soundCircle = combinedSoundPoint.SoundCircle;
+
+        let soundPointLatLng = L.latLng( soundPoint.latlng );
+        let soundPointDistance = soundPointLatLng.distanceTo( lng.latlng ); // Calc the distance between us and this soundpoint
         
-        // Distance within radius?
+        // Are we within radius of the soundpoint?
         if(soundPointDistance < soundPoint.radius)
         {
-            // And check if this position is different to the previous found
-            // Because we cannot simply via value-check compare 2 objects, we need to stringify them
-            if(JSON.stringify(currentSoundPosition) != JSON.stringify(soundPoint) )
+            // Extra feature:
+            // On start of the tour (currentSoundIndex == 0).. We should be able to "slide in" into the next sound point
+            if(currentSoundIndex == -1)
             {
-                // Set this new-found sound position as the current one
-                currentSoundPosition = soundPoint;
+                //alert("Start de  sluipschut route !");
+            }
 
-                // Send out the "I found a location" event
-                let event = new CustomEvent("locationInRange", { detail: soundPoint } );
-                window.dispatchEvent(event);
+            // Are we talking about 2 different SoundPositions? ._o = the ID given to this point by the API
+            if( currentSoundIndex == 0 || currentSoundIndex != soundPoint._o )
+            {
+                //Extra requirement: The new SoundPosition should be the legally "next" (no trespassing!)
+                if(currentSoundIndex == 0 || currentSoundIndex == nextSoundPosition.Geodata._o + 1)
+                {
+                    // OH YEAH! We reached a valid new SoundPoint. Start this motherfucker.
+                    // Determine the new previous sound
+                    previousSoundPosition = allSoundPositions[currentSoundIndex];
+
+                    // Determine the new current sound
+                    currentSoundPosition = nextSoundPosition;
+
+                    // Determine the new next sound (if there is a next one)
+                    if(currentSoundIndex < allSoundPositions.length)
+                    {
+                        nextSoundPosition = allSoundPositions[currentSoundIndex + 1];
+
+                        // Tell the the index tracker to increment
+                        currentSoundIndex++;
+
+                        // Change some styling
+                        previousSoundPosition.SoundCircle.setStyle( { color: 'red'} );
+                        currentSoundPosition.SoundCircle.setStyle( {color: 'green'} );
+                        nextSoundPosition.SoundCircle.setStyle( { color: 'orange'} );
+                    }   
+                    else 
+                    {
+                        // TODO Send out a "done event"
+
+                    }
+
+                    // Send out the "I found a location" event
+                    let event = new CustomEvent("playNewLocationSound", { detail: soundPoint } );
+                    window.dispatchEvent(event);
+                }
             }
         }
     }
@@ -209,11 +259,16 @@ function refreshButtonPanel()
     let newDistance = 999999;
     if(nextSoundPosition != undefined && currentPosition.latlng != undefined)
     {
-        newDistance = nextSoundPosition.getLatLng().distanceTo( currentPosition.latlng );
+        let nextSoundPositionRadius = nextSoundPosition.SoundCircle.options.radius;
+        let nextSoundPositionLatlng = nextSoundPosition.SoundCircle.getLatLng();
+
+        // Calculate the distance between the current position and the "edge" of the next sound position
+        newDistance = nextSoundPositionLatlng.distanceTo( currentPosition.latlng ) - nextSoundPositionRadius;
     }    
 
     document.querySelector("#txtDistance").innerText = newDistance.toFixed(2);
     document.querySelector("#txtAccurracy").innerText = Math.round( currentPosition.accuracy );
+    document.querySelector("#txtCurrentSound").innerText = currentSoundIndex;
 
 }
 

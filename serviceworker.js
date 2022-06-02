@@ -13,7 +13,7 @@ const WORKBOX_VERSION = '5.1.1';
 const APP_CACHE_PREFIX = 'mct';
 const APP_CACHE_SUFFIX = `v${BUILD_MMR}`;
 
-const staticCacheName = 'music-cache-v1';
+const staticCacheName = 'music-cache-v2';
 
 const baseUrl = 'https://r-spierings.nl/'; 
 

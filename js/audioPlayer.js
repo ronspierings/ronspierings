@@ -1,6 +1,6 @@
 var audioElement = document.getElementById("AudioElement");
 
-window.addEventListener("locationInRange", onPlaySound);
+
 
 
 async function onPlaySound(args)
@@ -35,6 +35,8 @@ function musicPlayOrPause()
 /*
    Subscibe to the events
 */
+window.addEventListener("playNewLocationSound", onPlaySound);
+
 audioElement.addEventListener('play', onStartPlay);
 audioElement.addEventListener('pause', onStopPlay);
 audioElement.addEventListener('ended', onStopPlay);
@@ -65,6 +67,8 @@ function onStartPlay(event)
 {
    document.getElementById("txtSound").style.color = "green";
    document.getElementById("pauseOrPlay").disabled = false;
+   document.getElementById("pauseOrPlay").innerText = "Pauzeer Audio";
+
 }
 
 function onStopPlay(event)
