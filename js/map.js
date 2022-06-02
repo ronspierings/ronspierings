@@ -125,12 +125,6 @@ function onPlacingMarker(args)
     })
     .addTo(map);
 
-    // Set the startpoint as the NextSoundPosition
-    if(marker._o == 0)
-    {
-
-    }
-
     // Create a combined object (Markers and Geodata) and add to one array
     var combinedObject = {
         SoundCircle: soundCirkle,
@@ -198,38 +192,43 @@ function onLocationUpdate(lng)
             if(currentSoundIndex == -1)
             {
                 //alert("Start de  sluipschut route !");
+                // currentSoundIndex = soundPoint._o - 1;
             }
 
-            // Are we talking about 2 different SoundPositions? ._o = the ID given to this point by the API
-            if( currentSoundIndex == 0 || currentSoundIndex != soundPoint._o )
+            // Is this soundPoint different than the current one?
+            if( currentSoundIndex == -1 || currentSoundIndex != soundPoint._o )
             {
                 //Extra requirement: The new SoundPosition should be the legally "next" (no trespassing!)
-                if(currentSoundIndex == 0 || currentSoundIndex == nextSoundPosition.Geodata._o + 1)
+                if(currentSoundIndex == -1 || currentSoundIndex + 1 == soundPoint._o)
                 {
-                    // OH YEAH! We reached a valid new SoundPoint. Start this motherfucker.
-                    // Determine the new previous sound
-                    previousSoundPosition = allSoundPositions[currentSoundIndex];
+                    if(currentSoundIndex == -1)
+                    {
+                        // CHEATMODE
+                    }
+                    currentSoundIndex++;
+                    
+                    // Determine the previous sound
+                    if(currentSoundIndex > 0)
+                    {
+                        previousSoundPosition = allSoundPositions[currentSoundIndex - 1];
+                        previousSoundPosition.SoundCircle.setStyle( { color: 'red' } );
+                    }                    
 
                     // Determine the new current sound
-                    currentSoundPosition = nextSoundPosition;
+                    currentSoundPosition = allSoundPositions[currentSoundIndex];
 
                     // Determine the new next sound (if there is a next one)
                     if(currentSoundIndex < allSoundPositions.length)
                     {
                         nextSoundPosition = allSoundPositions[currentSoundIndex + 1];
 
-                        // Tell the the index tracker to increment
-                        currentSoundIndex++;
-
-                        // Change some styling
-                        previousSoundPosition.SoundCircle.setStyle( { color: 'red'} );
-                        currentSoundPosition.SoundCircle.setStyle( {color: 'green'} );
-                        nextSoundPosition.SoundCircle.setStyle( { color: 'orange'} );
+                        // Change some styling                        
+                        currentSoundPosition.SoundCircle.setStyle( { color: 'green' } );
+                        nextSoundPosition.SoundCircle.setStyle( { color: 'orange' } );
                     }   
                     else 
                     {
                         // TODO Send out a "done event"
-
                     }
 
                     // Send out the "I found a location" event
