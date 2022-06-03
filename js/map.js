@@ -117,10 +117,12 @@ function onPlacingMarker(args)
         icon: soundMarkerIcon,     
     })
     // Bind the title permanent tooltip
-    .bindTooltip("Locatie " + marker._o , {
+    .bindTooltip(marker.route_description , {
         permanent: true,
         direction: 'right',
         opacity: 0.9,
+        maxWidth: 350,
+        className: 'tooltipMap',
         offset: L.point(12,-12)
     })
     .addTo(map);
@@ -144,6 +146,20 @@ function onPlaceMarkerReady()
 {
     this.nextSoundPosition = allSoundPositions[0];
     allSoundPositions[0].SoundCircle.setStyle( { color: 'orange' } );
+
+    // Build the Polylines route
+    let polylinesPoints = [];
+    for(let point of allSoundPositions)
+    {
+        let lineLatLng = point.SoundCircle.getLatLng();
+        polylinesPoints.push(lineLatLng);
+    }
+
+    // Add the lines to the map
+    let polyline = L.polyline(polylinesPoints, {
+        color: 'black'
+    }).addTo(map);
+    
 }
 
 function onAccuratePositionError (e) 
@@ -201,9 +217,10 @@ function onLocationUpdate(lng)
                 //Extra requirement: The new SoundPosition should be the legally "next" (no trespassing!)
                 if(currentSoundIndex == -1 || currentSoundIndex + 1 == soundPoint._o)
                 {
+                    // Pickup the route from another place when not started
                     if(currentSoundIndex == -1)
                     {
-                        // CHEATMODE
+                        currentSoundIndex = soundPoint._o - 1;
                     }
                     currentSoundIndex++;
                     
