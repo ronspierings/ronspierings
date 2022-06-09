@@ -94,7 +94,7 @@ function onStartTour()
             // setView: true // Set the map?
         }
     );
-
+    */
     // Do the accurate Geo-location lookup
     map.findAccuratePosition({
         maxWait: 1000000,
