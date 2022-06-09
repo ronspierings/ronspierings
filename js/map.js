@@ -87,7 +87,7 @@ var thuis = L.marker([51.7078039375618, 5.300874116295497],
 function onStartTour() 
 {
     // Do the GEO-location lookup (native function)
-    map.locate(
+    /*map.locate(
         {
             watch: true, // Continously updating
             enableHighAccuracy: true

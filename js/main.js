@@ -41,7 +41,6 @@ function startApplication()
 
 function startTour() 
 {
-
     let result = confirm("Weet je zeker dat je de route wilt starten?");
     if(result == false)
     {
