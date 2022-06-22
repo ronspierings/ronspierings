@@ -27,7 +27,7 @@ var nextSoundPosition = undefined;
 // Layer initialiation
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
-    maxZoom: 20,
+    maxZoom: 19,
     useCache: true,
     crossOrigin: true,
     cacheMaxAge: (1000 * 3600 * 24 * 7 * 4)
@@ -54,7 +54,8 @@ window.addEventListener("placeMarkerReady", onPlaceMarkerReady);
 */
 var locationHereIcon = L.icon({
     iconUrl: imgLocation,
-    iconSize: [24, 24],
+    iconAnchor: [24,48],
+    iconSize: [48, 48]
 });
 
 var soundMarkerIcon = L.icon({
