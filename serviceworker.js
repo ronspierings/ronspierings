@@ -28,7 +28,8 @@ var filesToCache = [
   'js/pouchdb.js',
   'js/Leaflet.TileLayer.PouchDBCached.js',
   'js/vendor/modernizr-3.11.2.min.js',
-  'js/plugins.js'
+  'js/plugins.js',
+  'cache/route.json'
 ];
 
 // service-worker.js

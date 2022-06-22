@@ -9,6 +9,8 @@ var map = L.map('map',
     zoom: 18
 });
 
+map.whenReady(onMapLoaded);
+
 
 
 /*
@@ -163,10 +165,10 @@ function onPlaceMarkerReady()
     }
 
     // Add the lines to the map
-    let polyline = L.polyline(polylinesPoints, {
+   /*let polyline = L.polyline(polylinesPoints, {
         color: 'black'
-    }).addTo(map);
-    
+    }).addTo(map);  
+    */  
 }
 
 function onAccuratePositionError (e) 
@@ -270,6 +272,18 @@ function onLocationUpdate(lng)
     refreshButtonPanel();
 }
 
+function onMapLoaded()
+{
+    fetch('cache/route.json')
+    .then( response => response.json() )
+    .then((response) => {
+        // Draw the looptroute 
+        let polyline = L.polyline(response, {
+            color: 'black'
+         }).addTo(map); 
+    });
+}
+
 function notFoundLocation(e)
 {
     alert("GPS Locatie niet gevonden");
@@ -294,7 +308,7 @@ function refreshButtonPanel()
 
     document.querySelector("#txtDistance").innerText = newDistance.toFixed(2);
     document.querySelector("#txtAccurracy").innerText = Math.round( currentPosition.accuracy );
-    document.querySelector("#txtCurrentSound").innerText = currentSoundIndex;
+    document.querySelector("#txtCurrentSound").innerText = currentSoundIndex + 1;
 
 }
 
