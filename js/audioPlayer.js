@@ -1,5 +1,8 @@
 var audioElement1 = document.getElementById("AudioElement1");
 var audioElement2 = document.getElementById("AudioElement2");
+
+var currentAudioElement = document.getElementById("AudioElement1");
+
 var fadeoutSeconds = 10;
 
 
@@ -25,6 +28,11 @@ async function onPlaySound(args)
       audioElement = audioElement1;
    }
 
+   // Set the current audioElement
+   currentAudioElement = audioElement;
+
+   currentAudioElement.addEventListener('timeupdate', onTimeUpdate);
+
    // Do we need to fadeout a currently playing audio?
    if(audioElement1. paused == false || audioElement2.paused == false)
    {
@@ -49,18 +57,20 @@ async function onPlaySound(args)
       alert("Fout bij afspelen audio. Contacteer de beheerder");
    }
 
-
-
+   // Update the UI
+   onStartPlay();
 }
 
 function musicPlayOrPause(args)
 {
-   if(audioElement.paused == true)
+   if(currentAudioElement.paused == true)
    {
-      audioElement.play();
+      currentAudioElement.play();
+      onStartPlay();
    }
    else {
-      audioElement.pause();
+      currentAudioElement.pause();
+      onStopPlay();
    }   
 }
 
@@ -77,9 +87,6 @@ audioElement.addEventListener('ended', onStopPlay);
 */
 audioElement1.addEventListener('canplaythrough', () => { audioElement1.play() });
 audioElement2.addEventListener('canplaythrough', () => { audioElement2.play() });
-
-audioElement1.addEventListener('timeupdate', onTimeUpdate);
-audioElement2.addEventListener('timeupdate', onTimeUpdate);
 
 
 // TODO: Implement buffer handling via wait event (call back to server o.i.d?)
@@ -99,7 +106,6 @@ function fadeOutAudioElement(element, secAmount)
       {
          element.pause();
          element.volume = 1;
-         element.src = undefined;
 
          clearInterval(intervalId);
          return;
@@ -116,7 +122,7 @@ function fadeOutAudioElement(element, secAmount)
 
 function onTimeUpdate(event)
 {
-   let timeToGo = audioElement1.duration -  audioElement1.currentTime;
+   let timeToGo = currentAudioElement.duration -  currentAudioElement.currentTime;
 
    if(isNaN(timeToGo)) {
       return;
@@ -126,7 +132,7 @@ function onTimeUpdate(event)
    document.getElementById("txtDurationLeft").innerText = parseInt(timeToGo) + " sec";
 }
 
-function onStartPlay(event)
+function onStartPlay()
 {
    document.getElementById("txtSound").style.color = "green";
    document.getElementById("pauseOrPlay").disabled = false;
@@ -134,7 +140,7 @@ function onStartPlay(event)
 
 }
 
-function onStopPlay(event)
+function onStopPlay()
 {
    document.getElementById("txtDurationLeft").innerText = "Stilte";
    document.getElementById("txtSound").style.color = "red";

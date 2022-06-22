@@ -153,22 +153,11 @@ function onPlacingMarker(args)
 // All the markers are placed on the map. Ready to go.
 function onPlaceMarkerReady()
 {
+    // Do some pre-route start stuff
     this.nextSoundPosition = allSoundPositions[0];
+    
     allSoundPositions[0].SoundCircle.setStyle( { color: 'orange' } );
-
-    // Build the Polylines route
-    let polylinesPoints = [];
-    for(let point of allSoundPositions)
-    {
-        let lineLatLng = point.SoundCircle.getLatLng();
-        polylinesPoints.push(lineLatLng);
-    }
-
-    // Add the lines to the map
-   /*let polyline = L.polyline(polylinesPoints, {
-        color: 'black'
-    }).addTo(map);  
-    */  
+ 
 }
 
 function onAccuratePositionError (e) 
@@ -279,7 +268,8 @@ function onMapLoaded()
     .then((response) => {
         // Draw the looptroute 
         let polyline = L.polyline(response, {
-            color: 'black'
+            color: 'black',
+            opacity: 0.8
          }).addTo(map); 
     });
 }
