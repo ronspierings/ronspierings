@@ -31,6 +31,7 @@ async function onPlaySound(args)
    // Set the current audioElement
    currentAudioElement = audioElement;
 
+   // Start listening to timeupdates
    currentAudioElement.addEventListener('timeupdate', onTimeUpdate);
 
    // Do we need to fadeout a currently playing audio?
