@@ -22,7 +22,13 @@ const broadcast = new BroadcastChannel('sw-update-channel');
 
   // Place the files to cache here! 
 var filesToCache = [
-  'js/leaflet-src.js'
+  'js/leaflet-src.js',
+  'index.html',
+  'js/Leaflet.AccuratePosition.js',
+  'js/pouchdb.js',
+  'js/Leaflet.TileLayer.PouchDBCached.js',
+  'js/vendor/modernizr-3.11.2.min.js',
+  'js/plugins.js'
 ];
 
 // service-worker.js

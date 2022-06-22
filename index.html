@@ -49,7 +49,7 @@
   <div id="ButtonPanel">
     <p style="font-size: 35px; margin: 0px">Locatie <span id="txtCurrentSound"></span></p>
     <p><span id="txtSound" style="color: red;">♫ <span id="txtDurationLeft">Stilte</span></span></p> 
-    <p>GPS Nauwkeurigheid: <span id="txtAccurracy"></span>m</p>
+    <p style="display: none">GPS Nauwkeurigheid: <span id="txtAccurracy"></span>m</p>
     <p>Volgende locatie: <span id="txtDistance"></span>m</p>
     <button onclick="audioElement.currentTime -= 30">-30s</button>
     <button onclick="audioElement.currentTime += 30">+30s</button>
@@ -59,7 +59,11 @@
     <button onclick="showCacheDataUI()">Status</button>
   </div>
 
-  <audio id="AudioElement">
+  <audio id="AudioElement1">
+    <source id="AudioSourceElement" src=""></source>
+  </audio>
+
+  <audio id="AudioElement2">
     <source id="AudioSourceElement" src=""></source>
   </audio>
   

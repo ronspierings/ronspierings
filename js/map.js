@@ -248,7 +248,10 @@ function onLocationUpdate(lng)
 
                         // Change some styling                        
                         currentSoundPosition.SoundCircle.setStyle( { color: 'green' } );
-                        nextSoundPosition.SoundCircle.setStyle( { color: 'orange' } );
+                        if(nextSoundPosition != undefined)
+                        {
+                            nextSoundPosition.SoundCircle.setStyle( { color: 'orange' } );
+                        }                        
                     }   
                     else 
                     {
