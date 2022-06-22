@@ -61,7 +61,8 @@
 
 .tooltipMap
 {
-  width: 40vw;
+  width: 20vw;
+  font-size: 15px;
   white-space: pre-wrap !important;
   word-break: keep-all;
 }

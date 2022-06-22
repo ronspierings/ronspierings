@@ -124,17 +124,21 @@ function onPlacingMarker(args)
     // The sound icon
     let soundMarker = L.marker(marker.latlng,  {
         icon: soundMarkerIcon,     
-    })
-    // Bind the title permanent tooltip
-    .bindTooltip(marker.route_description , {
-        permanent: false,
-        direction: 'right',
-        opacity: 0.9,
-        maxWidth: 350,
-        className: 'tooltipMap',
-        offset: L.point(12,-12)
-    })
-    .addTo(map);
+    });
+
+    if(marker.route_description != null)
+    {
+        // Bind the title permanent tooltip
+        soundMarker.bindTooltip(marker.route_description , {
+            permanent: true,
+            direction: 'right',
+            opacity: 0.85,
+            className: 'tooltipMap',
+            offset: L.point(12,-12)
+        })
+        .addTo(map);
+    }
+
 
     // Create a combined object (Markers and Geodata) and add to one array
     var combinedObject = {
