@@ -1,11 +1,11 @@
-var imgLocation = 'images/location.png';
+var imgLocation = 'images/location_red.png';
 var imgPlay = 'images/play.png';
 var imgMarker = 'images/marker-icon-2x.png';
 
 // Map Initialization
 var map = L.map('map', 
 {
-    center: [51.505, -0.09],
+    center: [51.76748024365527, 5.521769722773008],
     zoom: 18
 });
 
@@ -26,7 +26,11 @@ var nextSoundPosition = undefined;
 
 // Layer initialiation
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
+    maxZoom: 20,
+    useCache: true,
+    crossOrigin: true,
+    cacheMaxAge: (1000 * 3600 * 24 * 7 * 4)
 }).addTo(map);
 
 /*
@@ -70,6 +74,7 @@ var regularMarkerIcon = L.icon({
 var currentPositionMarker = L.marker([51.505, -0.09],
 {
     icon: locationHereIcon,
+    radius: 5
 }).addTo(map);
 
 
@@ -87,17 +92,18 @@ var thuis = L.marker([51.7078039375618, 5.300874116295497],
 function onStartTour() 
 {
     // Do the GEO-location lookup (native function)
-    /*map.locate(
+    map.locate(
         {
             watch: true, // Continously updating
             enableHighAccuracy: true
             // setView: true // Set the map?
         }
     );
-    */
+    
     // Do the accurate Geo-location lookup
     map.findAccuratePosition({
         maxWait: 1000000,
+        watch: true,
         desiredAccuracy: 5,
     });
 }
@@ -118,7 +124,7 @@ function onPlacingMarker(args)
     })
     // Bind the title permanent tooltip
     .bindTooltip(marker.route_description , {
-        permanent: true,
+        permanent: false,
         direction: 'right',
         opacity: 0.9,
         maxWidth: 350,
@@ -141,7 +147,7 @@ function onPlacingMarker(args)
     refreshButtonPanel();
 }
 
-// All the markers are placed on the map.
+// All the markers are placed on the map. Ready to go.
 function onPlaceMarkerReady()
 {
     this.nextSoundPosition = allSoundPositions[0];

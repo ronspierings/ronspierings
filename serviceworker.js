@@ -22,7 +22,7 @@ const broadcast = new BroadcastChannel('sw-update-channel');
 
   // Place the files to cache here! 
 var filesToCache = [
-  
+  'js/leaflet-src.js'
 ];
 
 // service-worker.js
@@ -33,6 +33,13 @@ self.addEventListener('install', function(event) {
         
         broadcast.postMessage({type: 'CACHE_START_DOWNLOADING'});
 
+        // First, Cache some default files
+        for(let item of filesToCache)
+        {
+          cache.add(item);
+        }
+
+        // Next, download every sound location and Cache every sound file
         fetch('https://r-spierings.nl/AudioTourOssAdmin/api/collections/get/SoundLocation?token=bb9d57d773bcc3e75e1347f43b5d48')
         .then(response => {
           return response.json();
@@ -44,7 +51,7 @@ self.addEventListener('install', function(event) {
             {
               console.log("Adding to cache:", baseUrl + item.mp3file);
               cache.add(baseUrl + item.mp3file).then(result => {
-                broadcast.postMessage({type: 'CACHE_FILE_ADDED'});
+                // broadcast.postMessage({type: 'CACHE_FILE_ADDED'});
               });
             }      
             broadcast.postMessage({type: 'CACHE_COMPLETED'});        
