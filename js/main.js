@@ -151,6 +151,41 @@ function getCacheData()
 
 }
 
+// Refresh the MP3 Cache
+function refreshCache()
+{
+    caches.open(staticCacheName)
+    .then(cache => {
+        
+        broadcast.postMessage({type: 'CACHE_START_DOWNLOADING'});
+
+        // First, Cache some default files
+        for(let item of filesToCache)
+        {
+        cache.add(item);
+        }
+
+        // Next, download every sound location and Cache every sound file
+        fetch('https://r-spierings.nl/AudioTourOssAdmin/api/collections/get/SoundLocation?token=bb9d57d773bcc3e75e1347f43b5d48')
+        .then(response => {
+        return response.json();
+        })
+        .then(responseJson => {          
+        if(responseJson.entries != undefined)
+        {
+            for(let item of responseJson.entries)
+            {
+            console.log("Adding to cache:", baseUrl + item.mp3file);
+            cache.add(baseUrl + item.mp3file).then(result => {
+                // broadcast.postMessage({type: 'CACHE_FILE_ADDED'});
+            });
+            }      
+            broadcast.postMessage({type: 'CACHE_COMPLETED'});        
+        }
+        })
+    });
+}
+
 // Show the cache info screen
 function showCacheDataUI() 
 {
@@ -164,9 +199,8 @@ function showCacheDataUI()
 // Update the UI on the caching data
 function updateCacheDataUI()
 {
-    document.getElementById("txtCacheAmount").innerText = cacheData.amount;
+    document.getElementById("txtCacheAmount").innerText = (cacheData.amount - filesToCache.length);
     document.getElementById("txtCacheSize").innerText = cacheData.totalSize;
     document.getElementById("txtCacheLastUpdate").innerText = cacheData.lastUpdate;
     document.getElementById("txtCacheName").innerText = cacheData.cacheName;
-
 }

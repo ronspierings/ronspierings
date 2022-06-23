@@ -9,9 +9,7 @@ const DEBUG_LOGGING = true;
 const WORKBOX_DEBUG_LOGGING = false;
 // Workbox version - update manually when there are new releases.
 const WORKBOX_VERSION = '5.1.1';
-// Cache naming and versioning.
-const APP_CACHE_PREFIX = 'mct';
-const APP_CACHE_SUFFIX = `v${BUILD_MMR}`;
+
 
 const staticCacheName = 'music-cache-v3';
 

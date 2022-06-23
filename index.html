@@ -30,10 +30,11 @@
   <ul>
     <li>Aantal files: <span id="txtCacheAmount"></span></li>
     <li>Cache versie: <span id="txtCacheName"></span></li>
-    <li>Totale grootte: <span id="txtCacheSize"></span>kb</li>
+    <li style="display: none;">Totale grootte: <span id="txtCacheSize"></span>kb</li>
     <li>Laatste update: <span id="txtCacheLastUpdate"></span></li>
   </ul>
   <button onclick="document.getElementById('cacheInfoScreen').style.display = 'none';">Sluiten</button>
+  <button onclick="refreshCache()">Opnieuw downloaden</button>
 </div>
     
 
