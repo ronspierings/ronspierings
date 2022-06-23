@@ -28,13 +28,17 @@
 <div id="cacheInfoScreen" style="display: none;">
   <h1>Downloadstatistieken</h1>
   <ul>
-    <li>Aantal files: <span id="txtCacheAmount"></span></li>
+    <li>Aantal gedownloade files: <span id="txtCacheAmount"></span><span> van de </span><span id="txtTotalAudioAmount">17</span></li>
     <li>Cache versie: <span id="txtCacheName"></span></li>
     <li style="display: none;">Totale grootte: <span id="txtCacheSize"></span>kb</li>
     <li>Laatste update: <span id="txtCacheLastUpdate"></span></li>
   </ul>
-  <button onclick="document.getElementById('cacheInfoScreen').style.display = 'none';">Sluiten</button>
-  <button onclick="refreshCache()">Opnieuw downloaden</button>
+  <button onclick="refreshCache()">Audio opnieuw downloaden</button>
+  <br>
+  <br>
+
+  <button style="float:right;" onclick="document.getElementById('cacheInfoScreen').style.display = 'none';">Sluiten</button>
+  
 </div>
     
 
@@ -52,8 +56,8 @@
     <p><span id="txtSound" style="color: red;">♫ <span id="txtDurationLeft">Stilte</span></span></p> 
     <p style="display: none">GPS Nauwkeurigheid: <span id="txtAccurracy"></span>m</p>
     <p>Volgende locatie: <span id="txtDistance"></span>m</p>
-    <button onclick="currentAudioElement.currentTime -= 30">-30s</button>
-    <button onclick="currentAudioElement.currentTime += 30">+30s</button>
+    <button style="display:none;" onclick="currentAudioElement.currentTime -= 30">-30s</button>
+    <button style="display: none;" onclick="currentAudioElement.currentTime += 30">+30s</button>
     <br>
     <br>
     <button onclick="musicPlayOrPause()" id="pauseOrPlay" disabled>Pauzeer Audio</button>

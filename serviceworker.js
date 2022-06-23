@@ -11,7 +11,7 @@ const WORKBOX_DEBUG_LOGGING = false;
 const WORKBOX_VERSION = '5.1.1';
 
 
-const staticCacheName = 'music-cache-v3';
+const staticCacheName = 'music-cache-v3.1';
 
 const baseUrl = 'https://r-spierings.nl/'; 
 
@@ -38,11 +38,8 @@ self.addEventListener('install', function(event) {
         
         broadcast.postMessage({type: 'CACHE_START_DOWNLOADING'});
 
-        // First, Cache some default files
-        for(let item of filesToCache)
-        {
-          cache.add(item);
-        }
+        // Add all the cache files from the statics
+        cache.addAll(filesToCache);
 
         // Next, download every sound location and Cache every sound file
         fetch('https://r-spierings.nl/AudioTourOssAdmin/api/collections/get/SoundLocation?token=bb9d57d773bcc3e75e1347f43b5d48')
@@ -55,9 +52,7 @@ self.addEventListener('install', function(event) {
             for(let item of responseJson.entries)
             {
               console.log("Adding to cache:", baseUrl + item.mp3file);
-              cache.add(baseUrl + item.mp3file).then(result => {
-                // broadcast.postMessage({type: 'CACHE_FILE_ADDED'});
-              });
+              cache.add(baseUrl + item.mp3file);
             }      
             broadcast.postMessage({type: 'CACHE_COMPLETED'});        
           }

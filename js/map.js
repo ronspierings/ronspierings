@@ -304,6 +304,8 @@ function refreshButtonPanel()
     document.querySelector("#txtAccurracy").innerText = Math.round( currentPosition.accuracy );
     document.querySelector("#txtCurrentSound").innerText = currentSoundIndex + 1;
 
+    
+
 }
 
 function resetCentreMap()

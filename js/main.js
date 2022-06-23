@@ -2,6 +2,7 @@ var cacheCompleted = false;
 cacheData = {
     amount: 0,
     totalSize: 0,
+    totalAudioAmount: 17,
     lastUpdate: "Onbekend",
     cacheName: staticCacheName
 }
@@ -63,9 +64,13 @@ function placeObjectsOnMap(data)
 {
     if(data.entries == undefined)
     {
+        cacheData.totalAudioAmount = 0;
         alert("Fout bij het ophalen van de locaties. Contacteer de organisatie.");
         return;
     }
+
+    // Store the amount of entries in the cache data
+    cacheData.totalAudioAmount = data.entries.length;
 
     for(let item of data.entries)
     {
@@ -144,6 +149,8 @@ function getCacheData()
             // TODO Lookup how to get the cache size in KB / MB
             cacheData.amount = keys.length;
 
+            // Calculate the amount of 
+
             // Update the UI
             updateCacheDataUI();
         })
@@ -154,6 +161,8 @@ function getCacheData()
 // Refresh the MP3 Cache
 function refreshCache()
 {
+    //caches.delete(staticCacheName);
+
     caches.open(staticCacheName)
     .then(cache => {
         
@@ -162,26 +171,26 @@ function refreshCache()
         // First, Cache some default files
         for(let item of filesToCache)
         {
-        cache.add(item);
+            cache.add(item);
         }
 
         // Next, download every sound location and Cache every sound file
         fetch('https://r-spierings.nl/AudioTourOssAdmin/api/collections/get/SoundLocation?token=bb9d57d773bcc3e75e1347f43b5d48')
         .then(response => {
-        return response.json();
+            return response.json();
         })
         .then(responseJson => {          
-        if(responseJson.entries != undefined)
-        {
-            for(let item of responseJson.entries)
+            if(responseJson.entries != undefined)
             {
-            console.log("Adding to cache:", baseUrl + item.mp3file);
-            cache.add(baseUrl + item.mp3file).then(result => {
-                // broadcast.postMessage({type: 'CACHE_FILE_ADDED'});
-            });
-            }      
-            broadcast.postMessage({type: 'CACHE_COMPLETED'});        
-        }
+                for(let item of responseJson.entries)
+                {
+                    console.log("Adding to cache:", baseUrl + item.mp3file);
+                    cache.add(baseUrl + item.mp3file).then(result => {
+                        // broadcast.postMessage({type: 'CACHE_FILE_ADDED'});
+                    });
+                }      
+                broadcast.postMessage({type: 'CACHE_COMPLETED'});        
+            }
         })
     });
 }
