@@ -135,9 +135,13 @@ function onPlacingMarker(args)
             opacity: 0.85,
             className: 'tooltipMap',
             offset: L.point(12,-12)
-        })
-        .addTo(map);
+        });
+
+        // Reset the layout, so the Tooltips will never overlap
+        L.tooltipLayout.resetMarker(soundMarker);
     }
+
+    soundMarker.addTo(map);
 
 
     // Create a combined object (Markers and Geodata) and add to one array
