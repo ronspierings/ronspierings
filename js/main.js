@@ -2,7 +2,7 @@ var cacheCompleted = false;
 cacheData = {
     amount: 0,
     totalSize: 0,
-    totalAudioAmount: 17,
+    totalAudioAmount: 14,
     lastUpdate: "Onbekend",
     cacheName: staticCacheName
 }
