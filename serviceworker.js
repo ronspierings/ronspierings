@@ -11,7 +11,7 @@ const WORKBOX_DEBUG_LOGGING = false;
 const WORKBOX_VERSION = '5.1.1';
 
 
-const staticCacheName = 'music-cache-v3.2';
+const staticCacheName = 'music-cache-v3.3';
 
 const baseUrl = 'https://r-spierings.nl/'; 
 
@@ -34,7 +34,8 @@ var filesToCache = [
   'css/leaflet.css',
   'js/map.js',
   'js/audioPlayer.js',
-  'js/main.js'
+  'js/main.js',
+  'https://r-spierings.nl/AudioTourOssAdmin/api/collections/get/SoundLocation' 
 ];
 
 // service-worker.js
