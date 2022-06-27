@@ -21,13 +21,13 @@ const broadcast = new BroadcastChannel('sw-update-channel');
   // Place the files to cache here! 
 var filesToCache = [
   'js/leaflet-src.js',
-  'index.html',
+  /*'index.html',*/
   'js/Leaflet.AccuratePosition.js',
   'js/pouchdb.js',
   'js/Leaflet.TileLayer.PouchDBCached.js',
   'js/vendor/modernizr-3.11.2.min.js',
   'js/plugins.js',
-  'cache/route.json'
+  'cache/route.json',
 ];
 
 // service-worker.js
@@ -60,9 +60,10 @@ self.addEventListener('install', function(event) {
             } 
 
             console.log("Current to be cached list:" , filesToCache);
+
+            broadcast.postMessage({type: 'CACHE_COMPLETED'});
             
-            cache.addAll(filesToCache);     
-            broadcast.postMessage({type: 'CACHE_COMPLETED'});        
+            return cache.addAll(filesToCache);          
           }
         })
       })      
