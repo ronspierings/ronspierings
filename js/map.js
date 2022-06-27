@@ -126,7 +126,6 @@ function onPlacingMarker(args)
         icon: soundMarkerIcon,     
     });
 
-    soundMarker.addTo(map);
 
     if(marker.route_description != null)
     {
@@ -140,11 +139,10 @@ function onPlacingMarker(args)
         });
 
         // Reset the layout, so the Tooltips will never overlap
-        L.tooltipLayout.resetMarker(soundMarker);
+        // L.tooltipLayout.resetMarker(soundMarker);
     }
 
-
-
+    soundMarker.addTo(map);
 
     // Create a combined object (Markers and Geodata) and add to one array
     var combinedObject = {
