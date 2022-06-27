@@ -126,6 +126,8 @@ function onPlacingMarker(args)
         icon: soundMarkerIcon,     
     });
 
+    soundMarker.addTo(map);
+
     if(marker.route_description != null)
     {
         // Bind the title permanent tooltip
@@ -141,7 +143,7 @@ function onPlacingMarker(args)
         L.tooltipLayout.resetMarker(soundMarker);
     }
 
-    soundMarker.addTo(map);
+
 
 
     // Create a combined object (Markers and Geodata) and add to one array
