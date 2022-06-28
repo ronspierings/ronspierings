@@ -274,7 +274,19 @@ function onMapLoaded()
     fetch('cache/route.json')
     .then( response => response.json() )
     .then((response) => {
-        // Draw the looptroute 
+        /*
+            Ron's route reverser
+        
+        let result1 = [];
+        for(let item of response)
+        {
+            result1.push( item.reverse() );
+        }
+        console.log("Reversed route : ", result1);
+        
+        */
+        
+        // Draw the looproute 
         let polyline = L.polyline(response, {
             color: 'black',
             opacity: 0.8
