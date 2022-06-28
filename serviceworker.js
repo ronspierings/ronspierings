@@ -11,7 +11,7 @@ const WORKBOX_DEBUG_LOGGING = false;
 const WORKBOX_VERSION = '5.1.1';
 
 
-const staticCacheName = 'music-cache-v3.1';
+const staticCacheName = 'music-cache-v3.3';
 
 const baseUrl = 'https://r-spierings.nl/'; 
 
@@ -27,7 +27,15 @@ var filesToCache = [
   'js/Leaflet.TileLayer.PouchDBCached.js',
   'js/vendor/modernizr-3.11.2.min.js',
   'js/plugins.js',
-  'cache/route.json'
+  'cache/route.json',
+  'js/Leaflet.Tooltip.Layout.js',
+  'css/normalize.css',
+  'css/main.css',
+  'css/leaflet.css',
+  'js/map.js',
+  'js/audioPlayer.js',
+  'js/main.js',
+  'https://r-spierings.nl/AudioTourOssAdmin/api/collections/get/SoundLocation' 
 ];
 
 // service-worker.js
@@ -39,22 +47,31 @@ self.addEventListener('install', function(event) {
         broadcast.postMessage({type: 'CACHE_START_DOWNLOADING'});
 
         // Add all the cache files from the statics
-        cache.addAll(filesToCache);
+
+        // cache.addAll(filesToCache);
 
         // Next, download every sound location and Cache every sound file
         fetch('https://r-spierings.nl/AudioTourOssAdmin/api/collections/get/SoundLocation?token=bb9d57d773bcc3e75e1347f43b5d48')
         .then(response => {
           return response.json();
         })
-        .then(responseJson => {          
+        .then(responseJson => {    
+          
           if(responseJson.entries != undefined)
           {
             for(let item of responseJson.entries)
             {
               console.log("Adding to cache:", baseUrl + item.mp3file);
-              cache.add(baseUrl + item.mp3file);
-            }      
-            broadcast.postMessage({type: 'CACHE_COMPLETED'});        
+              
+              // Add this file to the current fileToCache list
+              filesToCache.push(baseUrl + item.mp3file);              
+            } 
+
+            console.log("Current to be cached list:" , filesToCache);
+
+            broadcast.postMessage({type: 'CACHE_COMPLETED'});
+            
+            return cache.addAll(filesToCache);          
           }
         })
       })      
