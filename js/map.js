@@ -283,9 +283,8 @@ function onMapLoaded()
             result1.push( item.reverse() );
         }
         console.log("Reversed route : ", result1);
-        
         */
-        
+       
         // Draw the looproute 
         let polyline = L.polyline(response, {
             color: 'black',
