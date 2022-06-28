@@ -2,7 +2,7 @@ var cacheCompleted = false;
 cacheData = {
     amount: 0,
     totalSize: 0,
-    totalAudioAmount: 15,
+    totalAudioAmount: 17,
     lastUpdate: "Onbekend",
     cacheName: staticCacheName
 }
@@ -184,11 +184,7 @@ function refreshCache()
             {
                 for(let item of responseJson.entries)
                 {
-<<<<<<< Updated upstream
-                    console.log("Adding to (late) cache:", baseUrl + item.mp3file);
-=======
-                    //console.log("Adding to cache:", baseUrl + item.mp3file);
->>>>>>> Stashed changes
+                    // console.log("Adding to cache:", baseUrl + item.mp3file);
                     cache.add(baseUrl + item.mp3file).then(result => {
                         console.log("Added to cache: " + result);
                     });
@@ -216,5 +212,4 @@ function updateCacheDataUI()
     document.getElementById("txtCacheSize").innerText = cacheData.totalSize;
     document.getElementById("txtCacheLastUpdate").innerText = cacheData.lastUpdate;
     document.getElementById("txtCacheName").innerText = cacheData.cacheName;
-    document.getElementById("txtTotalAudioAmount").innerText = cacheData.totalAudioAmount;
 }
