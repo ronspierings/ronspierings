@@ -306,9 +306,7 @@ function refreshButtonPanel()
 
     document.querySelector("#txtDistance").innerText = newDistance.toFixed(2);
     document.querySelector("#txtAccurracy").innerText = Math.round( currentPosition.accuracy );
-    document.querySelector("#txtCurrentSound").innerText = currentSoundIndex + 1;
-
-    
+    document.querySelector("#txtCurrentSound").innerText = currentSoundIndex + 1; 
 
 }
 

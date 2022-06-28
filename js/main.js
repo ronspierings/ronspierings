@@ -161,7 +161,7 @@ function getCacheData()
 // Refresh the MP3 Cache
 function refreshCache()
 {
-    //caches.delete(staticCacheName);
+    // caches.delete(staticCacheName);
 
     caches.open(staticCacheName)
     .then(cache => {
@@ -184,9 +184,13 @@ function refreshCache()
             {
                 for(let item of responseJson.entries)
                 {
+<<<<<<< Updated upstream
                     console.log("Adding to (late) cache:", baseUrl + item.mp3file);
+=======
+                    //console.log("Adding to cache:", baseUrl + item.mp3file);
+>>>>>>> Stashed changes
                     cache.add(baseUrl + item.mp3file).then(result => {
-                        // broadcast.postMessage({type: 'CACHE_FILE_ADDED'});
+                        console.log("Added to cache: " + result);
                     });
                 }      
                 broadcast.postMessage({type: 'CACHE_COMPLETED'});        
