@@ -35,7 +35,11 @@ var filesToCache = [
   'js/map.js',
   'js/audioPlayer.js',
   'js/main.js',
-  'https://r-spierings.nl/AudioTourOssAdmin/api/collections/get/SoundLocation' 
+  'images/layers.png',
+  'images/location_red.png',
+  'images/play.png',
+  'images/marker-icon-2x.png',
+  'https://r-spierings.nl/AudioTourOssAdmin/api/collections/get/SoundLocation'
 ];
 
 // service-worker.js
@@ -92,7 +96,7 @@ self.addEventListener('install', function(event) {
           console.info("Fetching from cache:", evt.request)
           return res;
         }
-        else 1
+        else
         {
           // No, we do not. Send out a network request
           if(evt.request.url.indexOf(".mp3") >= 0)
