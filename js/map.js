@@ -6,7 +6,7 @@ var imgMarker = 'images/marker-icon-2x.png';
 var map = L.map('map', 
 {
     center: [51.76748024365527, 5.521769722773008],
-    zoom: 18
+    zoom: 19
 });
 
 map.whenReady(onMapLoaded);
