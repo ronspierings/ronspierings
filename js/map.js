@@ -275,7 +275,7 @@ function onMapLoaded()
     .then( response => response.json() )
     .then((response) => {
         /*
-            Ron's route reverser
+            Ron's .KML (for anneloes) route reverser
         
         let result1 = [];
         for(let item of response)
@@ -284,7 +284,7 @@ function onMapLoaded()
         }
         console.log("Reversed route : ", result1);
         */
-       
+
         // Draw the looproute 
         let polyline = L.polyline(response, {
             color: 'black',

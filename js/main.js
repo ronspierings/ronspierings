@@ -1,4 +1,5 @@
 var cacheCompleted = false;
+
 cacheData = {
     amount: 0,
     totalSize: 0,
@@ -28,11 +29,16 @@ function startApplication()
         // Save the geo-data to the localStorage
         localStorage.setItem("geo-data", JSON.stringify(result));
         
-        console.log("Received geo-data.json", result);
-        
         // Place the markers on the map
         placeObjectsOnMap(result);
     });
+
+    // Do a extra cache call (only when there is a working internet connection)
+    if(window.navigator.onLine == true)
+    {
+       // Hard refresh the cache
+        refreshCache();
+    }
 }
 
 /*
@@ -94,9 +100,13 @@ function retrieveGeoData(url, callback)
     .then(res => {
         if(res != null)
         {
-            return res.json();
+            // Save the response in the localStorage
+            let resJson = res.json();
+            localStorage.setItem("geo-data", JSON.stringify(resJson));
+            return resJson;
         }
-        else {
+        else 
+        {
             // When call fails, save an empty object
             let empty = {
                 fields: [],
@@ -109,6 +119,26 @@ function retrieveGeoData(url, callback)
         
     }).catch((res) => {
         // @todo Error handling on geo-data call... use the cache?
+        let cacheResult = window.localStorage.getItem("geo-data");
+        cacheResultJson = {};
+        
+        if(cacheResult != null) 
+        {
+            cacheResultJson = JSON.parse(cacheResult);
+        }
+        else 
+        {
+            cacheResultJson = {
+                fields: [],
+                entries: [],
+                total: 0
+            };
+        }
+        debugger;
+
+        console.log("Send out cached geo-data:", cacheResultJson);
+        
+        return cacheResultJson;
 
     })
     .then(data => obj = data)
@@ -186,7 +216,7 @@ function refreshCache()
                 {
                     // console.log("Adding to cache:", baseUrl + item.mp3file);
                     cache.add(baseUrl + item.mp3file).then(result => {
-                        console.log("Added to cache: " + result);
+                        // console.log("Added to cache: ", result);
                     });
                 }      
                 broadcast.postMessage({type: 'CACHE_COMPLETED'});        

@@ -4,6 +4,7 @@ const BUILD_MMR = '1.0.0';
 const BUILD_DATE = '20220405';
 const BUILD_NUMBER = '1';
 const APP_VERSION = `${BUILD_MMR}.${BUILD_DATE}#${BUILD_NUMBER}`;
+
 // Debug logging - update manually
 const DEBUG_LOGGING = true;
 const WORKBOX_DEBUG_LOGGING = false;
@@ -39,7 +40,10 @@ var filesToCache = [
   'images/location_red.png',
   'images/play.png',
   'images/marker-icon-2x.png',
-  'https://r-spierings.nl/AudioTourOssAdmin/api/collections/get/SoundLocation'
+  'site.webmanifest',
+  'favicon.ico',
+  'icon.png',
+  'serviceworker.js'
 ];
 
 // service-worker.js
@@ -70,8 +74,6 @@ self.addEventListener('install', function(event) {
               // Add this file to the current fileToCache list
               filesToCache.push(baseUrl + item.mp3file);              
             } 
-
-            console.log("Current to be cached list:" , filesToCache);
 
             broadcast.postMessage({type: 'CACHE_COMPLETED'});
             
@@ -104,7 +106,14 @@ self.addEventListener('install', function(event) {
             console.warn('MP3 file downloaded from network :( ');
           }
           //console.log("Fetching from network:", evt.request)
-          return fetch(evt.request);
+          try {
+            return fetch(evt.request);
+          }
+          catch( error )
+          {
+            console.error(error);
+          }
+
         }
       })
     );
